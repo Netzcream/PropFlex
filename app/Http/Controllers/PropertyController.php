@@ -60,12 +60,8 @@ class PropertyController extends Controller
 
         if ($onlyRecent && !empty($recentIds)) {
             $query->whereIn('id', $recentIds);
-
             $idsOrder = implode(',', $recentIds);
             $query->orderByRaw("FIELD(id, $idsOrder)");
-        } elseif (!$onlyRecent && !empty($recentIds)) {
-            $idsOrder = implode(',', $recentIds);
-            $query->orderByRaw("FIELD(id, $idsOrder) DESC");
         }
 
 
