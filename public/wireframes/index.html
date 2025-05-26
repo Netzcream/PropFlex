@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PropFlex - [Nombre de la pantalla]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN para prototipado rápido -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-blue-700">PropFlex</a>
+            <nav>
+                <ul class="flex gap-4">
+                    <li><a href="index.html" class="text-gray-700 hover:text-blue-600 transition">Inicio</a></li>
+                    <li><a href="listado.html" class="text-gray-700 hover:text-blue-600 transition">Propiedades</a></li>
+                    <li><a href="contacto.html" class="text-gray-700 hover:text-blue-600 transition">Contacto</a></li>
+                    <li><a href="login.html" class="text-gray-700 hover:text-blue-600 transition">Ingresar</a></li>
+                    <!-- Links dinámicos según rol (ocultá/mostrá a mano si simulás otros perfiles) -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+
+    <main class="flex-1 container mx-auto px-4 py-8">
+
+        <!-- Hero / Banner con Buscador -->
+        <section
+            class="bg-blue-50 rounded-2xl p-6 md:p-12 mb-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="flex-1">
+                <h1 class="text-3xl md:text-4xl font-bold text-blue-800 mb-2">Bienvenido a PropFlex</h1>
+                <p class="text-lg text-blue-900 mb-6">La forma más fácil y profesional de gestionar tus propiedades
+                    inmobiliarias.</p>
+                <!-- Buscador rápido -->
+                <form class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" placeholder="Buscar por barrio, ciudad, etc."
+                        class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-blue-500" />
+                    <select class="px-3 py-2 rounded-lg border border-gray-300 focus:outline-blue-500">
+                        <option>Tipo de propiedad</option>
+                        <option>Casa</option>
+                        <option>Departamento</option>
+                        <option>PH</option>
+                        <option>Oficina</option>
+                    </select>
+                    <button type="submit"
+                        class="px-5 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition">
+                        Buscar
+                    </button>
+                </form>
+            </div>
+            <img src="https://placehold.co/350x220?text=PropFlex+Hero" alt="Hero PropFlex"
+                class="rounded-2xl shadow-xl w-full max-w-xs md:max-w-md">
+        </section>
+
+        <!-- Propiedades Destacadas -->
+        <section class="mb-10">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-semibold text-blue-800">Propiedades Destacadas</h2>
+                <a href="listado.html" class="text-blue-600 hover:underline">Ver todas</a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-xl shadow p-4 flex flex-col">
+                    <img src="https://placehold.co/400x220?text=Casa+en+Belgrano" alt="Casa en Belgrano"
+                        class="rounded-lg mb-3 w-full">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg text-gray-800">Casa en Belgrano</h3>
+                        <p class="text-sm text-gray-500 mb-1">4 ambientes • 120m²</p>
+                        <p class="text-sm text-gray-600 mb-2">Belgrano, CABA</p>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-blue-700 font-bold text-lg">$240.000 USD</span>
+                        <a href="detalle.html" class="text-blue-600 hover:underline text-sm">Ver más</a>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white rounded-xl shadow p-4 flex flex-col">
+                    <img src="https://placehold.co/400x220?text=Depto+en+Caballito" alt="Depto en Caballito"
+                        class="rounded-lg mb-3 w-full">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg text-gray-800">Depto en Caballito</h3>
+                        <p class="text-sm text-gray-500 mb-1">2 ambientes • 50m²</p>
+                        <p class="text-sm text-gray-600 mb-2">Caballito, CABA</p>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-blue-700 font-bold text-lg">$95.000 USD</span>
+                        <a href="detalle.html" class="text-blue-600 hover:underline text-sm">Ver más</a>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white rounded-xl shadow p-4 flex flex-col">
+                    <img src="https://placehold.co/400x220?text=PH+en+Villa+Urquiza" alt="PH en Villa Urquiza"
+                        class="rounded-lg mb-3 w-full">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg text-gray-800">PH en Villa Urquiza</h3>
+                        <p class="text-sm text-gray-500 mb-1">3 ambientes • 70m²</p>
+                        <p class="text-sm text-gray-600 mb-2">Villa Urquiza, CABA</p>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-blue-700 font-bold text-lg">$150.000 USD</span>
+                        <a href="detalle.html" class="text-blue-600 hover:underline text-sm">Ver más</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Últimas Propiedades Visitadas / Recientes -->
+        <section>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-semibold text-blue-800">Vistas Recientes</h2>
+                <a href="listado.html" class="text-blue-600 hover:underline">Ver todas</a>
+            </div>
+            <div class="flex flex-wrap gap-4">
+                <!-- Mini-card 1 -->
+                <div class="bg-white rounded-lg shadow p-2 flex items-center gap-3 w-full sm:w-72">
+                    <img src="https://placehold.co/70x60?text=Foto" alt="Depto en Palermo"
+                        class="rounded-lg w-16 h-12 object-cover">
+                    <div>
+                        <h3 class="font-medium text-gray-700 text-sm">Depto en Palermo</h3>
+                        <p class="text-xs text-gray-500">1 amb • Palermo</p>
+                    </div>
+                </div>
+                <!-- Mini-card 2 -->
+                <div class="bg-white rounded-lg shadow p-2 flex items-center gap-3 w-full sm:w-72">
+                    <img src="https://placehold.co/70x60?text=Foto" alt="Casa en Lanús"
+                        class="rounded-lg w-16 h-12 object-cover">
+                    <div>
+                        <h3 class="font-medium text-gray-700 text-sm">Casa en Lanús</h3>
+                        <p class="text-xs text-gray-500">5 amb • Lanús</p>
+                    </div>
+                </div>
+                <!-- Mini-card 3 -->
+                <div class="bg-white rounded-lg shadow p-2 flex items-center gap-3 w-full sm:w-72">
+                    <img src="https://placehold.co/70x60?text=Foto" alt="Oficina en Microcentro"
+                        class="rounded-lg w-16 h-12 object-cover">
+                    <div>
+                        <h3 class="font-medium text-gray-700 text-sm">Oficina en Microcentro</h3>
+                        <p class="text-xs text-gray-500">2 amb • Microcentro</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-4 mt-10">
+        <div class="container mx-auto px-4 text-center text-sm">
+            &copy; 2025 PropFlex - Proyecto Inmobiliario
+        </div>
+    </footer>
+
+</body>
+
+</html>

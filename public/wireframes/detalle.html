@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PropFlex - [Nombre de la pantalla]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN para prototipado rápido -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-blue-700">PropFlex</a>
+            <nav>
+                <ul class="flex gap-4">
+                    <li><a href="index.html" class="text-gray-700 hover:text-blue-600 transition">Inicio</a></li>
+                    <li><a href="listado.html" class="text-gray-700 hover:text-blue-600 transition">Propiedades</a></li>
+                    <li><a href="contacto.html" class="text-gray-700 hover:text-blue-600 transition">Contacto</a></li>
+                    <li><a href="login.html" class="text-gray-700 hover:text-blue-600 transition">Ingresar</a></li>
+                    <!-- Links dinámicos según rol (ocultá/mostrá a mano si simulás otros perfiles) -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-4 py-8">
+        <main class="flex-1 container mx-auto px-4 py-8">
+
+            <section class="bg-white rounded-2xl shadow p-6 md:p-10 max-w-4xl mx-auto">
+
+                <!-- Galería de imágenes -->
+                <div class="mb-8">
+                    <img src="https://placehold.co/760x380?text=Imagen+principal" alt="Imagen principal propiedad"
+                        class="w-full h-60 md:h-80 object-cover rounded-lg shadow mb-3">
+                    <div class="flex gap-3">
+                        <img src="https://placehold.co/110x70?text=Foto+1" alt="Foto 1"
+                            class="rounded-md object-cover h-16 w-28 border">
+                        <img src="https://placehold.co/110x70?text=Foto+2" alt="Foto 2"
+                            class="rounded-md object-cover h-16 w-28 border">
+                        <img src="https://placehold.co/110x70?text=Foto+3" alt="Foto 3"
+                            class="rounded-md object-cover h-16 w-28 border">
+                    </div>
+                </div>
+
+                <!-- Información principal -->
+                <div class="mb-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                        <h1 class="text-2xl font-bold text-blue-800">Casa en Belgrano</h1>
+                        <span
+                            class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wide">Disponible</span>
+                    </div>
+                    <div class="text-gray-500 text-sm mt-1">Belgrano, CABA</div>
+                </div>
+
+                <!-- Precio y acción -->
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="text-2xl text-blue-700 font-extrabold">$240.000 USD</div>
+                    <button
+                        class="px-6 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition text-base">
+                        Contactar agente
+                    </button>
+                </div>
+
+                <!-- Detalles técnicos -->
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <div class="bg-gray-100 rounded-lg px-4 py-2 text-gray-700 text-sm flex items-center gap-2">
+                        <span class="font-medium">Ambientes:</span> 4
+                    </div>
+                    <div class="bg-gray-100 rounded-lg px-4 py-2 text-gray-700 text-sm flex items-center gap-2">
+                        <span class="font-medium">Superficie:</span> 120 m²
+                    </div>
+                    <div class="bg-gray-100 rounded-lg px-4 py-2 text-gray-700 text-sm flex items-center gap-2">
+                        <span class="font-medium">Baños:</span> 2
+                    </div>
+                    <div class="bg-gray-100 rounded-lg px-4 py-2 text-gray-700 text-sm flex items-center gap-2">
+                        <span class="font-medium">Cochera:</span> Sí
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-blue-700 mb-1">Descripción</h2>
+                    <p class="text-gray-700">
+                        Excelente casa familiar en el corazón de Belgrano, a pasos de Av. Cabildo. Amplios ambientes,
+                        cocina equipada, patio interno, y gran luminosidad en todos los ambientes. Lista para mudarse.
+                    </p>
+                </div>
+
+                <!-- Características adicionales -->
+                <div class="mb-6">
+                    <h3 class="text-base font-semibold text-blue-700 mb-2">Características</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Gas natural</li>
+                        <li>Agua corriente</li>
+                        <li>Parrilla</li>
+                        <li>Apto crédito</li>
+                        <li>Es apto profesional</li>
+                    </ul>
+                </div>
+
+                <!-- Simulación de contacto o consulta rápida -->
+                <div class="bg-blue-50 rounded-xl p-4 mt-8">
+                    <h3 class="font-semibold text-blue-800 mb-2">¿Te interesa esta propiedad?</h3>
+                    <form class="flex flex-col md:flex-row md:items-end gap-3">
+                        <input type="text" placeholder="Tu nombre"
+                            class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-blue-500" />
+                        <input type="email" placeholder="Tu email"
+                            class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-blue-500" />
+                        <button type="submit"
+                            class="px-6 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition">
+                            Enviar consulta
+                        </button>
+                    </form>
+                </div>
+
+            </section>
+        </main>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-4 mt-10">
+        <div class="container mx-auto px-4 text-center text-sm">
+            &copy; 2025 PropFlex - Proyecto Inmobiliario
+        </div>
+    </footer>
+
+</body>
+
+</html>

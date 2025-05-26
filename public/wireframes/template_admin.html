@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PropFlex Admin - [Nombre de la pantalla]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-60 bg-blue-800 text-gray-100 flex flex-col min-h-screen">
+        <div class="h-20 flex items-center justify-center border-b border-blue-900">
+            <a href="index.html" class="text-2xl font-bold tracking-wide">PropFlex</a>
+        </div>
+        <nav class="flex-1 px-4 py-6">
+            <ul class="space-y-2">
+                <li>
+                    <a href="admin-dashboard.html" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin-propiedades.html" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                        <span>Propiedades</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin-usuarios.html" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin-consultas.html" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                        <span>Consultas</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="p-4 border-t border-blue-900">
+            <a href="index.html" class="block px-3 py-2 rounded-md bg-blue-900 hover:bg-blue-700 transition text-center font-medium">
+                Salir
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header superior -->
+        <header class="bg-white shadow px-6 py-4 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-blue-800">[Nombre de la pantalla]</h1>
+            </div>
+            <div>
+                <span class="text-gray-600 text-sm">Administrador</span>
+            </div>
+        </header>
+
+        <!-- Main content admin -->
+        <main class="flex-1 p-8 bg-gray-50">
+            <!-- [AQUÍ VA EL CONTENIDO ESPECÍFICO DE CADA SECCIÓN ADMIN] -->
+        </main>
+    </div>
+</body>
+</html>

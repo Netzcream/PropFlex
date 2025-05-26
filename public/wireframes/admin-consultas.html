@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PropFlex Admin - [Nombre de la pantalla]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-60 bg-blue-800 text-gray-100 flex flex-col min-h-screen">
+        <div class="h-20 flex items-center justify-center border-b border-blue-900">
+            
+            <a href="index.html" class="text-2xl font-bold tracking-wide">PropFlex</a>
+        </div>
+        <nav class="flex-1 px-4 py-6">
+            <ul class="space-y-2">
+                <li>
+                    <a href="admin-dashboard.html"
+                        class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin-propiedades.html"
+                        class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                        <span>Propiedades</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin-usuarios.html"
+                        class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin-consultas.html"
+                        class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                        <span>Consultas</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="p-4 border-t border-blue-900">
+            <a href="index.html"
+                class="block px-3 py-2 rounded-md bg-blue-900 hover:bg-blue-700 transition text-center font-medium">
+                Salir
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header superior -->
+        <header class="bg-white shadow px-6 py-4 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-blue-800">[Nombre de la pantalla]</h1>
+            </div>
+            <div>
+                <span class="text-gray-600 text-sm">Administrador</span>
+            </div>
+        </header>
+
+        <!-- Main content admin -->
+        <main class="flex-1 p-8 bg-gray-50">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-lg font-semibold text-blue-700">Consultas / Mensajes</h2>
+            </div>
+            <!-- Tabla de consultas/mensajes -->
+            <div class="overflow-x-auto bg-white rounded-xl shadow">
+                <table class="min-w-full text-sm">
+                    <thead>
+                        <tr class="bg-blue-100 text-blue-900">
+                            <th class="px-4 py-3 text-left">Nombre</th>
+                            <th class="px-4 py-3 text-left">Email</th>
+                            <th class="px-4 py-3 text-left">Mensaje</th>
+                            <th class="px-4 py-3 text-left">Fecha</th>
+                            <th class="px-4 py-3 text-left">Estado</th>
+                            <th class="px-4 py-3 text-left">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Fila ejemplo 1 -->
+                        <tr class="border-b">
+                            <td class="px-4 py-2">Sofía Gómez</td>
+                            <td class="px-4 py-2">sofia@email.com</td>
+                            <td class="px-4 py-2 truncate max-w-xs">Hola, quisiera saber si la casa en Belgrano sigue
+                                disponible...</td>
+                            <td class="px-4 py-2">22/05/2025</td>
+                            <td class="px-4 py-2">
+                                <span
+                                    class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Nuevo</span>
+                            </td>
+                            <td class="px-4 py-2 flex gap-2">
+                                <a href="admin-consulta-detalle.html"
+                                    class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-800 text-xs font-semibold transition">Ver</a>
+                                <button
+                                    class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-800 text-xs font-semibold transition">Eliminar</button>
+                            </td>
+                        </tr>
+                        <!-- Fila ejemplo 2 -->
+                        <tr>
+                            <td class="px-4 py-2">Martín López</td>
+                            <td class="px-4 py-2">martin@email.com</td>
+                            <td class="px-4 py-2 truncate max-w-xs">¿Cuántos metros tiene el PH en Villa Urquiza?</td>
+                            <td class="px-4 py-2">21/05/2025</td>
+                            <td class="px-4 py-2">
+                                <span
+                                    class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Leído</span>
+                            </td>
+                            <td class="px-4 py-2 flex gap-2">
+                                <a href="admin-consulta-detalle.html"
+                                    class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-800 text-xs font-semibold transition">Ver</a>
+                                <button
+                                    class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-800 text-xs font-semibold transition">Eliminar</button>
+                            </td>
+                        </tr>
+                        <!-- Agregá más filas para simular más consultas -->
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

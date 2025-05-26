@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PropFlex - [Nombre de la pantalla]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN para prototipado rápido -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-blue-700">PropFlex</a>
+            <nav>
+                <ul class="flex gap-4">
+                    <li><a href="index.html" class="text-gray-700 hover:text-blue-600 transition">Inicio</a></li>
+                    <li><a href="listado.html" class="text-gray-700 hover:text-blue-600 transition">Propiedades</a></li>
+                    <li><a href="contacto.html" class="text-gray-700 hover:text-blue-600 transition">Contacto</a></li>
+                    <li><a href="login.html" class="text-gray-700 hover:text-blue-600 transition">Ingresar</a></li>
+                    <!-- Links dinámicos según rol (ocultá/mostrá a mano si simulás otros perfiles) -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-4 py-8">
+        <main class="flex-1 container mx-auto px-4 py-8">
+
+            <!-- Buscador/Filtros -->
+            <section class="bg-white rounded-2xl shadow p-4 mb-8">
+                <form class="flex flex-col md:flex-row items-stretch gap-3">
+                    <input type="text" placeholder="Buscar por ubicación, barrio, etc."
+                        class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-blue-500" />
+
+                    <select class="px-3 py-2 rounded-lg border border-gray-300 focus:outline-blue-500">
+                        <option>Tipo</option>
+                        <option>Casa</option>
+                        <option>Departamento</option>
+                        <option>PH</option>
+                        <option>Oficina</option>
+                    </select>
+
+                    <select class="px-3 py-2 rounded-lg border border-gray-300 focus:outline-blue-500">
+                        <option>Operación</option>
+                        <option>Venta</option>
+                        <option>Alquiler</option>
+                    </select>
+
+                    <input type="number" placeholder="Mín. $"
+                        class="w-32 px-3 py-2 rounded-lg border border-gray-300 focus:outline-blue-500" />
+                    <input type="number" placeholder="Máx. $"
+                        class="w-32 px-3 py-2 rounded-lg border border-gray-300 focus:outline-blue-500" />
+
+                    <button type="submit"
+                        class="px-5 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition">
+                        Filtrar
+                    </button>
+                </form>
+            </section>
+
+            <!-- Listado de Propiedades -->
+            <section>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-semibold text-blue-800">Propiedades disponibles</h2>
+                    <span class="text-gray-600 text-sm">9 resultados</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl shadow p-4 flex flex-col">
+                        <img src="https://placehold.co/400x220?text=Casa+en+Parque+Chas" alt="Casa en Parque Chas"
+                            class="rounded-lg mb-3 w-full">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-lg text-gray-800">Casa en Parque Chas</h3>
+                            <p class="text-sm text-gray-500 mb-1">4 amb • 98m²</p>
+                            <p class="text-sm text-gray-600 mb-2">Parque Chas, CABA</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-blue-700 font-bold text-lg">$210.000 USD</span>
+                            <a href="detalle.html" class="text-blue-600 hover:underline text-sm">Ver más</a>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl shadow p-4 flex flex-col">
+                        <img src="https://placehold.co/400x220?text=Depto+en+Recoleta" alt="Depto en Recoleta"
+                            class="rounded-lg mb-3 w-full">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-lg text-gray-800">Depto en Recoleta</h3>
+                            <p class="text-sm text-gray-500 mb-1">3 amb • 75m²</p>
+                            <p class="text-sm text-gray-600 mb-2">Recoleta, CABA</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-blue-700 font-bold text-lg">$135.000 USD</span>
+                            <a href="detalle.html" class="text-blue-600 hover:underline text-sm">Ver más</a>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-xl shadow p-4 flex flex-col">
+                        <img src="https://placehold.co/400x220?text=PH+en+Villa+Crespo" alt="PH en Villa Crespo"
+                            class="rounded-lg mb-3 w-full">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-lg text-gray-800">PH en Villa Crespo</h3>
+                            <p class="text-sm text-gray-500 mb-1">2 amb • 52m²</p>
+                            <p class="text-sm text-gray-600 mb-2">Villa Crespo, CABA</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-blue-700 font-bold text-lg">$110.000 USD</span>
+                            <a href="detalle.html" class="text-blue-600 hover:underline text-sm">Ver más</a>
+                        </div>
+                    </div>
+                    <!-- Podés clonar cards para agregar más propiedades -->
+                </div>
+            </section>
+
+            <!-- Paginación simulada -->
+            <div class="flex justify-center mt-10">
+                <nav class="inline-flex gap-1 rounded-md shadow" aria-label="Pagination">
+                    <a href="#"
+                        class="px-3 py-1 rounded-l-md bg-white border border-gray-200 text-gray-700 hover:bg-blue-100">Anterior</a>
+                    <a href="#" class="px-3 py-1 bg-blue-700 text-white font-semibold">1</a>
+                    <a href="#" class="px-3 py-1 bg-white border border-gray-200 text-gray-700 hover:bg-blue-100">2</a>
+                    <a href="#" class="px-3 py-1 bg-white border border-gray-200 text-gray-700 hover:bg-blue-100">3</a>
+                    <span class="px-3 py-1 text-gray-400">...</span>
+                    <a href="#" class="px-3 py-1 bg-white border border-gray-200 text-gray-700 hover:bg-blue-100">5</a>
+                    <a href="#"
+                        class="px-3 py-1 rounded-r-md bg-white border border-gray-200 text-gray-700 hover:bg-blue-100">Siguiente</a>
+                </nav>
+            </div>
+
+        </main>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-4 mt-10">
+        <div class="container mx-auto px-4 text-center text-sm">
+            &copy; 2025 PropFlex - Proyecto Inmobiliario
+        </div>
+    </footer>
+
+</body>
+
+</html>
