@@ -5,3 +5,5 @@ deployment:
  - php /home/netz8452/propflex.netzcream.com.ar/artisan view:cache
  - php /home/netz8452/propflex.netzcream.com.ar/artisan view:clear
  - php /home/netz8452/propflex.netzcream.com.ar/artisan migrate
+#netz8452_propflex
+#Twzvx0NTWnxP
