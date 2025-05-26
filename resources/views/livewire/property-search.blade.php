@@ -27,10 +27,27 @@
         </form>
     </div>
 
+    <style>
+        .img-blur {
+            filter: blur(16px);
+            transition: filter 0.6s;
+        }
 
+        .img-blur.loaded {
+            filter: blur(0);
+        }
+    </style>
     @php
-        $imgs = ['img/home/bg-1-min.webp', 'img/home/bg-2-min.webp', 'img/home/bg-3-min.webp', 'img/home/bg-4-min.webp', 'img/home/bg-5-min.webp'];
+        $imgs = [
+            'img/home/bg-1-min.webp',
+            'img/home/bg-2-min.webp',
+            'img/home/bg-3-min.webp',
+            'img/home/bg-4-min.webp',
+            'img/home/bg-5-min.webp',
+        ];
         $index = array_rand($imgs);
     @endphp
-    <img src="{{ $imgs[$index] }}" alt="PropFlex" class="rounded-2xl shadow-xl w-full max-w-xs md:max-w-md">
+
+    <img src="{{ $imgs[$index] }}" alt="PropFlex" class="rounded-2xl shadow-xl w-full max-w-xs md:max-w-md img-blur"
+        loading="lazy" onload="this.classList.add('loaded')">
 </section>
