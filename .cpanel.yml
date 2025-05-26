@@ -1,0 +1,7 @@
+deployment:
+ tasks:
+ - cp -R /home/netz8452/repositories/PropFlex/* /home/netz8452/propflex.netzcream.com.ar/
+ - /opt/cpanel/composer/bin/composer install --working-dir=/home/netz8452/propflex.netzcream.com.ar/
+ - php /home/netz8452/propflex.netzcream.com.ar/artisan view:cache
+ - php /home/netz8452/propflex.netzcream.com.ar/artisan view:clear
+ - php /home/netz8452/propflex.netzcream.com.ar/artisan migrate
