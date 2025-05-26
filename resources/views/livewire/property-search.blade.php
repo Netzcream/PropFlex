@@ -29,7 +29,7 @@
 
 
     @php
-        $imgs = ['img/home/bg-1-min.png', 'img/home/bg-2-min.png', 'img/home/bg-3-min.png', 'img/home/bg-4-min.png', 'img/home/bg-5-min.png'];
+        $imgs = ['img/home/bg-1-min.webp', 'img/home/bg-2-min.webp', 'img/home/bg-3-min.webp', 'img/home/bg-4-min.webp', 'img/home/bg-5-min.webp'];
         $index = array_rand($imgs);
     @endphp
     <img src="{{ $imgs[$index] }}" alt="PropFlex" class="rounded-2xl shadow-xl w-full max-w-xs md:max-w-md">
