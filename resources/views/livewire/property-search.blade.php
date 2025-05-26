@@ -28,14 +28,14 @@
     </div>
 
     <style>
-        .img-blur {
+        /*.img-blur {
             filter: blur(16px);
             transition: filter 0.6s;
         }
 
         .img-blur.loaded {
             filter: blur(0);
-        }
+        }*/
     </style>
     @php
         $imgs = [
@@ -49,5 +49,5 @@
     @endphp
 
     <img src="{{ $imgs[$index] }}" alt="PropFlex" class="rounded-2xl shadow-xl w-full max-w-xs md:max-w-md img-blur"
-        loading="lazy" onload="this.classList.add('loaded')">
+        loading="lazy" >
 </section>
