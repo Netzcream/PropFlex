@@ -32,16 +32,18 @@
                 </flux:select>
             </div>
             <div>
-                <flux:input wire:model.defer="property_price" label="Precio" type="number" min="0" step="any" required />
+                <flux:input wire:model.defer="property_price" label="Precio" type="number" min="0"
+                    step="any" required />
             </div>
             <div>
-                <flux:input wire:model.defer="property_currency" label="Moneda" placeholder="Ej: USD, ARS" maxlength="3" required />
+                <flux:input wire:model.defer="property_currency" label="Moneda" placeholder="Ej: USD, ARS"
+                    maxlength="3" required />
             </div>
             <div>
                 <flux:input wire:model.defer="property_address" label="Dirección" required />
             </div>
             <div>
-                <flux:select wire:model.live="property_province_id"  label="Provincia">
+                <flux:select wire:model.live="property_province_id" label="Provincia">
                     <flux:select.option value="">{{ __('Elegir provincia...') }}</flux:select.option>
                     @foreach ($provinces as $province)
                         <flux:select.option value="{{ $province->id }}">{{ $province->name }}</flux:select.option>
@@ -49,7 +51,7 @@
                 </flux:select>
             </div>
             <div>
-                <flux:select wire:model.live="property_city_id"  label="Ciudad">
+                <flux:select wire:model.live="property_city_id" label="Ciudad">
                     <flux:select.option value="">{{ __('Elegir ciudad...') }}</flux:select.option>
                     @foreach ($cities as $city)
                         <flux:select.option value="{{ $city->id }}">{{ $city->name }}</flux:select.option>
@@ -103,21 +105,154 @@
             <flux:textarea wire:model.defer="property_description" label="Descripción" rows="4" />
         </div>
 
-        <div>
-            <label class="block text-sm font-medium mb-1">Fotos</label>
-            <input type="file" wire:model="photo_files" multiple accept="image/*" class="block w-full text-sm" />
+
+
+        <div class="flex flex-col gap-2">
+            <label for="photo-files-pre" class="block text-sm font-medium">Fotos</label>
+            <label for="photo-files-pre"
+                class="flex items-center justify-center px-4 py-2 border-2 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition
+                  text-gray-600 font-medium text-sm shadow-sm">
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="fill-blue-500 mr-2 size-5" viewBox="0 0 640 512">
+                    <path
+                        d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128l-368 0zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39L296 392c0 13.3 10.7 24 24 24s24-10.7 24-24l0-134.1 39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z" />
+                </svg>
+
+
+                <span>Elegir fotos (máx. 4 MB c/u)</span>
+                <input id="photo-files-pre" type="file" wire:model="photo_files_pre" multiple accept="image/*"
+                    class="hidden" />
+            </label>
             @error('photo_files.*')
                 <span class="text-red-600 text-xs">{{ $message }}</span>
             @enderror
         </div>
-        <div>
-            <label class="block text-sm font-medium mb-1">Planos</label>
-            <input type="file" wire:model="plan_files" multiple accept="image/*,application/pdf"
-                class="block w-full text-sm" />
+        @if ($photo_files)
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Fotos pendientes de subida</label>
+                <div class="flex flex-wrap gap-4">
+                    @foreach ($photo_files as $idx => $photo)
+                        <div
+                            class="relative w-32 h-32 border rounded overflow-hidden flex items-center justify-center bg-gray-100">
+                            {{-- Si es imagen, mostrá preview. Si es otro archivo, solo el nombre --}}
+                            @if (substr($photo->getMimeType(), 0, 5) === 'image')
+                                <img src="{{ $photo->temporaryUrl() }}" class="object-cover w-full h-full"
+                                    alt="Foto {{ $idx + 1 }}">
+                            @else
+                                <span class="text-xs p-2">{{ $photo->getClientOriginalName() }}</span>
+                            @endif
+                            <button type="button" wire:click="removePhotoFile({{ $idx }})"
+                                class="absolute top-1 right-1 bg-white rounded-full p-1 text-red-500 hover:bg-red-100">
+                                &times;
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+        @if ($existing_photos)
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Fotos actuales</label>
+                <div class="flex flex-wrap gap-4">
+                    @foreach ($existing_photos as $media)
+                        <div
+                            class="relative w-32 h-32 border rounded overflow-hidden flex items-center justify-center bg-gray-100">
+                            <img src="{{ $media->getUrl('thumb') ?? $media->getUrl() }}"
+                                class="object-cover w-full h-full" alt="Foto actual">
+                            <button type="button" wire:click="removeExistingPhoto({{ $media->id }})"
+                                class="absolute top-1 right-1 bg-white rounded-full p-1 text-red-500 hover:bg-red-100">
+                                &times;
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+        @endif
+
+
+
+
+
+
+
+        <div class="flex flex-col gap-2">
+            <label for="plan-files-pre" class="block text-sm font-medium">Planos</label>
+            <label for="plan-files-pre"
+                class="flex items-center justify-center px-4 py-2 border-2 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition
+                  text-gray-600 font-medium text-sm shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="fill-blue-500 mr-2 size-5" viewBox="0 0 640 512">
+                    <path
+                        d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128l-368 0zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39L296 392c0 13.3 10.7 24 24 24s24-10.7 24-24l0-134.1 39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z" />
+                </svg>
+
+                <span>Elegir fotos (máx. 4 MB c/u)</span>
+                <input id="plan-files-pre" type="file" wire:model="plan_files_pre" multiple accept="image/*"
+                    class="hidden" />
+            </label>
             @error('plan_files.*')
                 <span class="text-red-600 text-xs">{{ $message }}</span>
             @enderror
         </div>
+
+        @if ($plan_files)
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Planos pendiente de subida</label>
+                <div class="flex flex-wrap gap-4">
+                    @foreach ($plan_files as $idx => $plan)
+                        <div
+                            class="relative w-32 h-32 border rounded overflow-hidden flex items-center justify-center bg-gray-100">
+                            {{-- Si es imagen, mostrá preview. Si es otro archivo, solo el nombre --}}
+                            @if (substr($plan->getMimeType(), 0, 5) === 'image')
+                                <img src="{{ $plan->temporaryUrl() }}" class="object-cover w-full h-full"
+                                    alt="Foto {{ $idx + 1 }}">
+                            @else
+                                <span class="text-xs p-2">{{ $plan->getClientOriginalName() }}</span>
+                            @endif
+                            <button type="button" wire:click="removePlanFile({{ $idx }})"
+                                class="absolute top-1 right-1 bg-white rounded-full p-1 text-red-500 hover:bg-red-100">
+                                &times;
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+        @if ($existing_plans)
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Planos actuales</label>
+                <div class="flex flex-wrap gap-4">
+                    @foreach ($existing_plans as $media)
+                        <div
+                            class="relative w-32 h-32 border rounded overflow-hidden flex items-center justify-center bg-gray-100">
+                            <img src="{{ $media->getUrl('thumb') ?? $media->getUrl() }}"
+                                class="object-cover w-full h-full" alt="Foto actual">
+                            <button type="button" wire:click="removeExistingPlan({{ $media->id }})"
+                                class="absolute top-1 right-1 bg-white rounded-full p-1 text-red-500 hover:bg-red-100">
+                                &times;
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <div class="flex justify-end gap-2">
             <flux:button type="submit" variant="primary">

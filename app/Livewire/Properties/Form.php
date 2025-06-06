@@ -41,8 +41,6 @@ class Form extends Component
     public $property_published_at;
     public $property_expires_at;
 
-    public $photo_files = [];
-    public $plan_files = [];
 
     public $propertyTypes = [];
     public $propertyOperationTypes = [];
@@ -51,11 +49,23 @@ class Form extends Component
     public $cities = [];
     public $neighborhoods = [];
 
+    public $photo_files_pre = [];
+    public $photo_files = [];
+    public $plan_files_pre = [];
+    public $plan_files = [];
+    public $existing_photos;
+    public $existing_plans;
+    public $photos_to_delete = [];
+    public $plans_to_delete = [];
+
+
     public $editMode = false;
     public $property_id = null;
 
     public function mount(?Property $property)
     {
+        $this->existing_photos = collect();
+        $this->existing_plans = collect();
         $this->propertyTypes = PropertyType::orderBy('name')->get();
         $this->propertyOperationTypes = PropertyOperationType::orderBy('name')->get();
         $this->propertyStatuses = PropertyStatus::orderBy('name')->get();
@@ -83,7 +93,8 @@ class Form extends Component
             $this->property_is_published = $property->is_published;
             $this->property_published_at = $property->published_at ? $property->published_at->format('Y-m-d') : null;
             $this->property_expires_at = $property->expires_at ? $property->expires_at->format('Y-m-d') : null;
-
+            $this->existing_photos = $property->getMedia('photos');
+            $this->existing_plans = $property->getMedia('plans');
             $this->editMode = true;
 
             $this->cities = $this->property_province_id
@@ -99,6 +110,18 @@ class Form extends Component
         }
     }
 
+
+    public function updatedPhotoFilesPre()
+    {
+        $this->photo_files = array_merge($this->photo_files, $this->photo_files_pre);
+        $this->photo_files_pre = collect();
+    }
+    public function updatedPlanFilesPre()
+    {
+
+        $this->plan_files = array_merge($this->plan_files, $this->plan_files_pre);
+        $this->plan_files_pre = collect();
+    }
     public function updatedPropertyProvinceId()
     {
         $this->cities = $this->property_province_id
@@ -174,6 +197,22 @@ class Form extends Component
 
         $property->save();
 
+
+
+
+
+        if (!empty($this->photos_to_delete)) {
+            foreach ($this->photos_to_delete as $mediaId) {
+                $media = \Spatie\MediaLibrary\MediaCollections\Models\Media::find($mediaId);
+                if ($media) $media->delete();
+            }
+        }
+        if (!empty($this->plans_to_delete)) {
+            foreach ($this->plans_to_delete as $mediaId) {
+                $media = \Spatie\MediaLibrary\MediaCollections\Models\Media::find($mediaId);
+                if ($media) $media->delete();
+            }
+        }
         foreach ($this->photo_files as $photo) {
             $property->addMedia($photo->getRealPath())->toMediaCollection('photos');
         }
@@ -181,9 +220,33 @@ class Form extends Component
             $property->addMedia($plan->getRealPath())->toMediaCollection('plans');
         }
 
+
         session()->flash('success', $this->editMode ? 'Propiedad actualizada' : 'Propiedad creada');
 
         return redirect()->route('dashboard.properties.index');
+    }
+
+    public function removePhotoFile($index)
+    {
+        unset($this->photo_files[$index]);
+        $this->photo_files = array_values($this->photo_files);
+    }
+    public function removePlanFile($index)
+    {
+        unset($this->plan_files[$index]);
+        $this->plan_files = array_values($this->plan_files);
+    }
+
+    public function removeExistingPhoto($mediaId)
+    {
+        $this->photos_to_delete[] = $mediaId;
+        $this->existing_photos = $this->existing_photos->filter(fn($item) => $item->id !== $mediaId);
+    }
+
+    public function removeExistingPlan($mediaId)
+    {
+        $this->plans_to_delete[] = $mediaId;
+        $this->existing_plans = $this->existing_plans->filter(fn($item) => $item->id !== $mediaId);
     }
 
     public function render()

@@ -18,26 +18,55 @@
             ],
             index: 0,
             open: false,
-            show(idx) { this.index = idx;
-                this.open = true; },
+            show(idx) {
+                this.index = idx;
+                this.open = true;
+            },
             prev() { if (this.index > 0) this.index--; },
             next() { if (this.index < this.images.length - 1) this.index++; }
         }" class="relative mb-8">
             <!-- Imagen principal -->
             <img :src="images.length && images[index].url ? images[index].url : '{{ asset('img/placeholder.png') }}'"
                 :alt="images.length ? images[index].alt : 'Sin imagen'"
-                class="w-full h-60 md:h-80 object-cover rounded-lg shadow mb-3 cursor-pointer"
+                class="w-full h-60 md:h-96 object-cover rounded-lg shadow mb-3 cursor-pointer"
                 @click="if(images.length) open = true" />
 
-            <!-- Carrusel thumbnails con opacidad y padding para no superponerse -->
-            <div class="overflow-x-auto no-scrollbar max-w-full pb-2" x-show="images.length">
-                <div class="flex gap-3 min-w-max">
-                    <template x-for="(img, idx) in images" :key="idx">
-                        <img :src="img.thumb" :alt="img.alt"
-                            class="rounded-md object-cover h-16 w-28 min-w-[7rem] max-w-[7rem] border cursor-pointer transition-opacity duration-150"
-                            :class="idx === index ? 'opacity-100' : 'opacity-50'" @click="index = idx" />
-                    </template>
-                </div>
+            <!-- Galería thumbnails: grid de 6 columnas -->
+            <div x-show="images.length" class="grid grid-cols-6 gap-3 w-full max-w-full pb-2 mt-2">
+                <!-- Mostrar hasta 5 imágenes -->
+                <template x-for="(img, idx) in images.slice(0,5)" :key="idx">
+                    <img :src="img.thumb" :alt="img.alt"
+                        class="w-full h-24 md:h-32 object-cover rounded-lg border cursor-pointer transition-all duration-150
+                   hover:scale-105 hover:shadow-lg"
+                        :class="idx === index ? 'ring-2 ring-blue-600 opacity-100' : 'opacity-70 hover:opacity-100'"
+                        @click="index = idx" />
+                </template>
+
+                <!-- Sexta tarjeta: puede ser thumb normal o '+n' overlay -->
+                <template x-if="images.length > 6">
+                    <div class="relative w-full h-24 md:h-32 rounded-lg border overflow-hidden cursor-pointer group"
+                        @click="index = 5; open = true">
+                        <img :src="images[5].thumb" :alt="images[5].alt"
+                            class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition" />
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                            <span class="text-white text-xl md:text-2xl font-bold drop-shadow-lg">
+                                +<span x-text="images.length - 5"></span>
+                            </span>
+                        </div>
+                    </div>
+                </template>
+                <template x-if="images.length === 6">
+                    <img :src="images[5].thumb" :alt="images[5].alt"
+                        class="w-full h-24 md:h-32 object-cover rounded-lg border cursor-pointer transition-all duration-150
+                    hover:scale-105 hover:shadow-lg"
+                        :class="5 === index ? 'ring-2 ring-blue-600 opacity-100' : 'opacity-70 hover:opacity-100'"
+                        @click="index = 5" />
+                </template>
+
+                <!-- Tarjetas "vacías" si hay menos de 6, para ocupar todo el ancho -->
+                <template x-for="n in Math.max(0, 6 - Math.min(images.length, 6))" :key="'empty-' + n">
+                    <div class="w-full h-24 md:h-32 rounded-lg border bg-gray-100 opacity-0"></div>
+                </template>
             </div>
 
             <!-- Lightbox/Modal -->
@@ -65,6 +94,9 @@
                 </div>
             </div>
         </div>
+
+
+
 
 
 
@@ -133,6 +165,74 @@
         @endif
 
 
+
+
+        <!-- Sección de planos (abajo de las fotos o en una columna al costado) -->
+
+        @if ($property->hasMedia('plans'))
+            <div x-data="{
+                plans: [
+                    @foreach ($property->getMedia('plans') as $plan)
+            {
+                url: '{{ $plan->getUrl() }}',
+                thumb: '{{ $plan->hasGeneratedConversion('thumb') ? $plan->getUrl('thumb') : (Str::endsWith($plan->mime_type, 'pdf') ? asset('img/pdf-thumb.png') : $plan->getUrl()) }}',
+                mime: '{{ $plan->mime_type }}',
+                alt: 'Plano {{ $loop->iteration }} de {{ $property->title }}',
+                name: '{{ $plan->file_name }}'
+            }, @endforeach
+                ],
+                planIndex: 0,
+                planOpen: false,
+                showPlan(idx) {
+                    this.planIndex = idx;
+                    this.planOpen = true;
+                },
+                prevPlan() { if (this.planIndex > 0) this.planIndex--; },
+                nextPlan() { if (this.planIndex < this.plans.length - 1) this.planIndex++; }
+            }" class="mb-4">
+                <h2 class="text-lg font-semibold text-blue-700 mb-2">Planos</h2>
+                <div class="grid grid-cols-3 md:grid-cols-4 gap-4">
+                    <template x-for="(plan, idx) in plans" :key="idx">
+                        <div @click="showPlan(idx)" class="cursor-pointer relative group">
+                            <img :src="plan.thumb" :alt="plan.alt"
+                                class="w-full h-32 md:h-40 object-cover rounded-lg border shadow-sm group-hover:shadow-md transition" />
+                            <template x-if="plan.mime.endsWith('pdf')">
+                                <span
+                                    class="absolute top-2 right-2 bg-red-500 text-white rounded px-2 py-1 text-xs font-bold">PDF</span>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+                <!-- Modal/Lightbox para planos -->
+                <div x-show="planOpen && plans.length" x-transition
+                    class="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center z-50"
+                    @keydown.window.escape="planOpen = false" @click.self="planOpen = false">
+                    <div class="relative flex items-center w-full h-full justify-center">
+                        <button x-show="planIndex > 0" @click="prevPlan"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/30 hover:bg-black/50 rounded-full px-3 py-2"
+                            title="Anterior">&larr;</button>
+                        <!-- Si es PDF, mostrás iframe o enlace, si es imagen, imagen -->
+                        <template x-if="plans[planIndex].mime.endsWith('pdf')">
+                            <iframe :src="plans[planIndex].url" class="w-[80vw] h-[80vh] bg-white rounded-lg shadow-lg"
+                                frameborder="0"></iframe>
+                        </template>
+                        <template x-if="!plans[planIndex].mime.endsWith('pdf')">
+                            <img :src="plans[planIndex].url" :alt="plans[planIndex].alt"
+                                class="max-w-full max-h-[80vh] rounded-lg shadow-lg" />
+                        </template>
+                        <button x-show="planIndex < plans.length - 1" @click="nextPlan"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/30 hover:bg-black/50 rounded-full px-3 py-2"
+                            title="Siguiente">&rarr;</button>
+                        <button @click="planOpen = false"
+                            class="absolute top-6 right-8 text-white text-4xl font-bold hover:text-red-400"
+                            title="Cerrar">&times;</button>
+                    </div>
+                    <div class="mt-2 text-white text-sm opacity-80">
+                        <span x-text="plans[planIndex].name"></span>
+                    </div>
+                </div>
+            </div>
+        @endif
         @if ($property->latitude && $property->longitude)
             <div class="max-w-4xl mx-auto mt-8">
                 <h2 class="text-lg font-semibold text-blue-700 mb-2">Ubicación en el mapa</h2>
