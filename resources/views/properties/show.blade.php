@@ -248,6 +248,12 @@
                 <script>
                     function renderMap() {
                         // Limpiar el div (por si el componente ya estaba renderizado)
+
+                        if (typeof L === 'undefined') {
+                            setTimeout(renderMap, 100);
+                            return;
+                        }
+
                         if (window.myMap) {
                             window.myMap.remove();
                         }
