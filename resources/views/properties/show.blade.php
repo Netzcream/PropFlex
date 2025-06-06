@@ -246,8 +246,13 @@
             @push('scripts')
                 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
                 <script>
-                    document.addEventListener('DOMContentLoaded', function() {
+                    function renderMap() {
+                        // Limpiar el div (por si el componente ya estaba renderizado)
+                        if (window.myMap) {
+                            window.myMap.remove();
+                        }
                         var map = L.map('map').setView([{{ $property->latitude }}, {{ $property->longitude }}], 16);
+                        window.myMap = map; // Guardar referencia global para limpiar después
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             maxZoom: 19,
                             attribution: '© OpenStreetMap'
@@ -256,7 +261,12 @@
                             .addTo(map)
                             .bindPopup(@json($property->title))
                             .openPopup();
-                    });
+                    }
+
+                    document.addEventListener('DOMContentLoaded', renderMap);
+
+                    // Livewire v3+: usar livewire:navigated, si usás v2 usar message.processed
+                    window.addEventListener('livewire:navigated', renderMap);
                 </script>
             @endpush
         @endif
