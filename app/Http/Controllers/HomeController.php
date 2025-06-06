@@ -11,7 +11,7 @@ class HomeController extends Controller
     {
         $featured = Property::where('is_published', true)
             ->where('is_featured', true)
-            ->latest('published_at')
+            ->inRandomOrder()
             ->take(3)
             ->get();
 
