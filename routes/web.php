@@ -5,6 +5,7 @@ use App\Http\Controllers\PropertyController;
 use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\Contacts\Index as ContactIndex;
 use App\Livewire\Contacts\Show as ContactShow;
+use App\Livewire\ProfileForm;
 use App\Livewire\Properties\Index as PropertiesIndex;
 use App\Livewire\Properties\Form as PropertiesForm;
 use App\Livewire\PropertyTypes\Index as PropertyTypesIndex;
@@ -27,7 +28,7 @@ Route::GET('/', [HomeController::class, 'index'])
 
 
 
-Route::middleware(['auth', 'verified','role:agente|admin'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:agente|admin'])->group(function () {
 
     // Dashboard
     //Route::get('/dashboard', fn() =>  view('dashboard'))->name('dashboard');
@@ -92,18 +93,26 @@ Route::resource('properties', PropertyController::class)->only(['index', 'show']
 Route::get('/about', function () {
     return view('home');
 })->name('about');
+
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+
 Route::get('/contact_property', function () {
     return view('home');
 })->name('contact.property');
-Route::get('/profile', function () {
-    return view('home');
-})->name('profile');
+
+
 
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
+
+
+
     Route::redirect('settings', 'settings/profile');
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');

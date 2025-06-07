@@ -11,6 +11,9 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+
 class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -71,5 +74,14 @@ class User extends Authenticatable implements HasMedia
     public function isAdmin()
     {
         return $this->hasRole('admin');
+    }
+
+    public function registerMediaConversions($media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(200) // o el tamaño que prefieras
+            ->height(200)
+            ->sharpen(10)
+            ->nonQueued(); // Saca el nonQueued si querés que sea en background
     }
 }

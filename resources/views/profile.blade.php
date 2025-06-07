@@ -1,8 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Contacto')
+@section('title', 'Perfil')
 
 @section('content')
-    @livewire('contact-form')
-
+    <livewire:profile-form />
 @endsection

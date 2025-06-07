@@ -6,7 +6,7 @@
 
     @livewire('property-search')
 
-    @if ($featured->isNotEmpty())
+    @if ($featured?->isNotEmpty())
         <section class="mb-10">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-2xl font-semibold text-blue-800">Propiedades Destacadas</h2>
