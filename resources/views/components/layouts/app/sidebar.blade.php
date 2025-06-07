@@ -56,6 +56,8 @@
                     </flux:navlist.item>
                 @endcan
             </flux:navlist.group>
+
+
 {{--
             <flux:navlist.group :heading="__('Extras')">
                 <flux:navlist.item icon="chart-bar" :href="route('dashboard.reports.index')"
