@@ -190,7 +190,11 @@
         @endif
 
 
-
+        <a href="{{ route('properties.export', $property) }}"
+            class="mb-4 inline-flex items-center px-4 py-2 text-sm font-medium bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+            target="_blank" rel="noopener">
+            <i class="fa-solid fa-file-pdf me-2 text-red-500"></i> Descargar ficha PDF
+        </a>
 
 
         <!-- Sección de planos (abajo de las fotos o en una columna al costado) -->

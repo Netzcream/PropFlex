@@ -6,6 +6,8 @@ use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Models\PropertyVisit;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class PropertyController extends Controller
 {
@@ -90,6 +92,25 @@ class PropertyController extends Controller
         return view('properties.index', compact('properties', 'types', 'operations', 'cities', 'recentMap', 'onlyRecent'));
     }
 
+    public function exportPdf(Property $property)
+    {
+        $property->load(['city', 'neighborhood', 'propertyStatus', 'features', 'media']);
+
+
+        $path = $property->getFirstMediaPath('photos'); // ruta absoluta
+        $base64Image = null;
+
+        if ($path && file_exists($path)) {
+            $imageData = file_get_contents($path);
+            $base64Image = 'data:image/jpeg;base64,' . base64_encode($imageData);
+        }
+
+        $pdf = Pdf::loadView('pdf.property-card', compact('property', 'base64Image'))
+            ->setPaper('a4')
+            ->setOption(['isHtml5ParserEnabled' => true]);
+
+        return $pdf->download("propiedad-{$property->slug}.pdf");
+    }
 
     /**
      * Show the form for creating a new resource.
