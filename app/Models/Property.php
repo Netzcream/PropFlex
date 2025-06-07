@@ -151,4 +151,14 @@ class Property extends Model implements HasMedia
             ->height(800)
             ->sharpen(8);
     }
+
+    public function favorites()
+{
+    return $this->hasMany(Favorite::class);
+}
+
+public function favoredByUsers()
+{
+    return $this->belongsToMany(User::class, 'favorites');
+}
 }

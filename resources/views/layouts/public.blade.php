@@ -68,6 +68,11 @@
                                     <a href="{{ route('profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                                         wire:navigate>Mi perfil</a>
                                 </li>
+                                        <li>
+                                    <a href="{{ route('properties.index',['favorites' => true]) }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                                        wire:navigate>Favoritos</a>
+                                </li>
+
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf

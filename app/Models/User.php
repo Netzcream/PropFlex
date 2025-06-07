@@ -84,4 +84,14 @@ class User extends Authenticatable implements HasMedia
             ->sharpen(10)
             ->nonQueued(); // Saca el nonQueued si querés que sea en background
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function favoriteProperties()
+    {
+        return $this->belongsToMany(Property::class, 'favorites');
+    }
 }

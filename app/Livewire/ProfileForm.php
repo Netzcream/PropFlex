@@ -22,6 +22,7 @@ class ProfileForm extends Component
 
     public function mount()
     {
+        /** @var User $user */
         $user = Auth::user();
         $this->name = $user->name;
         $this->email = $user->email;

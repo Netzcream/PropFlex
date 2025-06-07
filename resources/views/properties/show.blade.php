@@ -31,11 +31,19 @@
                 document.body.style.overflow = '';
             }
         })" class="relative mb-4">
+
+
             <!-- Imagen principal -->
             <img :src="images.length && images[index].url ? images[index].url : '{{ asset('img/placeholder.png') }}'"
                 :alt="images.length ? images[index].alt : 'Sin imagen'"
                 class="w-full h-60 md:h-96 object-cover rounded-lg shadow mb-3 cursor-pointer"
                 @click="if(images.length) open = true" />
+
+            @auth
+
+                <livewire:toggle-favorite-button :property="$property" top="top-4" right="right-4" />
+
+            @endauth
 
             <!-- Galería thumbnails: grid de 6 columnas -->
             <div x-show="images.length" class="grid grid-cols-6 gap-3 w-full max-w-full pb-2 mt-2">
@@ -116,15 +124,13 @@
             </div>
 
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-
-
-
                 <h1 class="text-2xl font-bold text-blue-800">{{ $property->title }}</h1>
                 <span
                     class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wide">
                     {{ $property->propertyStatus->name ?? 'Sin estado' }}
                 </span>
             </div>
+
             <div class="text-gray-500 text-sm mt-1">
                 {{ $property->neighborhood->name ?? '' }}, {{ $property->city->name ?? '' }}
             </div>

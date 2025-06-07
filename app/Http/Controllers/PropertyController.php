@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Models\PropertyVisit;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
@@ -52,7 +53,19 @@ class PropertyController extends Controller
         if ($request->filled('max')) {
             $query->where('price', '<=', $request->max);
         }
+        if (request()->boolean('favorites') && Auth::check()) {
+            /** @var User $user */
+            $user = Auth::user();
+            $favoriteIds = $user->favorites()->pluck('property_id')->toArray();
 
+            $query->whereIn('id', $favoriteIds);
+
+            // Si querés mantener el orden en que fueron marcados como favoritos
+            if (!empty($favoriteIds)) {
+                $idsOrder = implode(',', $favoriteIds);
+                $query->orderByRaw("FIELD(id, $idsOrder)");
+            }
+        }
 
         $recentIds = session('recently_viewed', []);
 
