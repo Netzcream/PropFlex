@@ -14,7 +14,7 @@
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
@@ -30,12 +30,13 @@
             <a href="{{ route('home') }}" class="text-2xl font-bold text-blue-700" wire:navigate>PropFlex</a>
             <nav>
                 <ul class="flex gap-4">
-                    <li><a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 transition" wire:navigate>Inicio</a>
+                    <li><a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 transition"
+                            wire:navigate>Inicio</a>
                     </li>
-                    <li><a href="{{ route('properties.index') }}"
-                            class="text-gray-700 hover:text-blue-600 transition" wire:navigate>Propiedades</a></li>
-                    <li><a href="{{ route('contact') }}"
-                            class="text-gray-700 hover:text-blue-600 transition" wire:navigate>Contacto</a></li>
+                    <li><a href="{{ route('properties.index') }}" class="text-gray-700 hover:text-blue-600 transition"
+                            wire:navigate>Propiedades</a></li>
+                    <li><a href="{{ route('contact') }}" class="text-gray-700 hover:text-blue-600 transition"
+                            wire:navigate>Contacto</a></li>
 
 
                     @auth
@@ -46,8 +47,8 @@
 
                         @if ($user->hasRole('admin') || $user->hasRole('agente'))
                             <li>
-                                <a href="{{ route('dashboard') }}"
-                                    class="text-gray-700 hover:text-blue-600 transition" wire:navigate>Panel</a>
+                                <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-600 transition"
+                                    wire:navigate>Panel</a>
                             </li>
                         @endif
 
@@ -64,8 +65,8 @@
                             <ul
                                 class="absolute right-0 mt-2 w-36 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity z-50">
                                 <li>
-                                    <a href="{{ route('profile') }}"
-                                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100" wire:navigate>Mi perfil</a>
+                                    <a href="{{ route('profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                                        wire:navigate>Mi perfil</a>
                                 </li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
@@ -79,7 +80,8 @@
                         </li>
                     @else
                         <li>
-                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600 transition" wire:navigate>Ingresar</a>
+                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600 transition"
+                                wire:navigate>Ingresar</a>
                         </li>
                     @endauth
 

@@ -19,7 +19,7 @@ class Index extends Component
     public string $sortDirection = 'asc';
     public string $search = '';
     public string $propertyToDelete = '';
-
+    public $is_published = '';
     public $status = '';
     public $type = '';
     public $operation = '';
@@ -31,6 +31,18 @@ class Index extends Component
     public $propertyTypes = [];
     public $propertyOperationTypes = [];
     public $propertyStatuses = [];
+
+
+    public $queryString = [
+        'status' => ['except' => ''],
+        'type' => ['except' => ''],
+        'operation' => ['except' => ''],
+        'city' => ['except' => ''],
+        'is_featured' => ['except' => ''],
+        'is_published' => ['except' => ''],
+        'search' => ['except' => ''],
+    ];
+
 
     public function mount()
     {
@@ -117,7 +129,13 @@ class Index extends Component
             ->when($this->type, fn($q) => $q->where('property_type_id', $this->type))
             ->when($this->operation, fn($q) => $q->where('property_operation_type_id', $this->operation))
             ->when($this->city, fn($q) => $q->where('city_id', $this->city))
-            ->when(!is_null($this->is_featured), fn($q) => $q->where('is_featured', $this->is_featured));
+            ->when($this->is_featured !== '', function ($q) {
+                $q->where('is_featured', (bool) $this->is_featured);
+            })
+            ->when($this->is_published !== '', function ($q) {
+                $q->where('is_published', (bool) $this->is_published);
+            });
+
 
         $properties = $query->orderBy($this->sortBy, $this->sortDirection)->paginate($this->perPage);
 

@@ -18,6 +18,10 @@ class PropertyType extends Model
         return 'uuid';
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     public function properties()
     {

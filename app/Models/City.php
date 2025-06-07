@@ -18,6 +18,11 @@ class City extends Model
         return 'uuid';
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function province()
     {
         return $this->belongsTo(Province::class);

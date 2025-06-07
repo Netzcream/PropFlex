@@ -18,6 +18,11 @@ class Neighborhood extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function getRouteKeyName()
     {
         return 'uuid';
@@ -28,7 +33,7 @@ class Neighborhood extends Model
     {
         return $this->hasMany(Property::class);
     }
-        protected static function boot()
+    protected static function boot()
     {
         parent::boot();
 

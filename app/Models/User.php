@@ -63,6 +63,11 @@ class User extends Authenticatable implements HasMedia
     }
 
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function isAdmin()
     {
         return $this->hasRole('admin');

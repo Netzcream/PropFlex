@@ -1,18 +1,20 @@
 <x-layouts.app :title="__('Dashboard')">
-    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-        <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-            </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-            </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <x-dashboard.card title="Propiedades Activas" :count="$propertiesActive" icon="house" />
+        <x-dashboard.card title="Contactos Recibidos (hoy)" :count="$contactsToday" icon="envelope" />
+        <x-dashboard.card title="Destacadas" :count="$propertiesFeatured" icon="star" />
+        <x-dashboard.card title="Usuarios" :count="$userCount" icon="users" />
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+            <h2 class="text-lg font-semibold mb-2">Últimos contactos recibidos</h2>
+            <x-dashboard.contacts-list :contacts="$lastContacts" />
         </div>
-        <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+        <div>
+            <h2 class="text-lg font-semibold mb-2">Propiedades próximas a vencer</h2>
+            <x-dashboard.expiring-properties :properties="$expiringProps" />
         </div>
     </div>
+
 </x-layouts.app>

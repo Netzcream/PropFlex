@@ -5,14 +5,13 @@
 
                 <div class="flex items-center justify-between gap-4 flex-wrap">
                     <div>
-                        <flux:heading size="xl" level="1">{{ __('Propíedades') }}</flux:heading>
-                        <flux:subheading size="lg" class="mb-6">{{ __('Agregá o edita tus propiedades') }}
+                        <flux:heading size="xl" level="1">{{ __('Tipos de propiedades') }}</flux:heading>
+                        <flux:subheading size="lg" class="mb-6">{{ __('Agregá o edita tus tipos de propiedades') }}
                         </flux:subheading>
 
                     </div>
 
-
-                    <flux:button as="a" href="{{ route('dashboard.properties.create') }}" variant="primary"
+                    <flux:button as="a" href="{{ route('dashboard.property-types.create') }}" variant="primary"
                         icon="plus">
                         {{ __('Nueva') }}
                     </flux:button>
@@ -25,7 +24,7 @@
             <div class="mt-5 w-full ">
 
                 <section class="w-full">
-                    @include('livewire.properties.index-list')
+                    @include('livewire.property-types.index-list')
                 </section>
             </div>
         </div>

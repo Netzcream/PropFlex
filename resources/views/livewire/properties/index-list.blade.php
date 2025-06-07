@@ -39,6 +39,14 @@
         </flux:select>
     </div>
 
+    <div class="w-[130px]">
+        <flux:select wire:model="is_published" wire:change="filter" label="{{ __('Publicado') }}">
+            <flux:select.option value="">{{ __('Todos') }}</flux:select.option>
+            <flux:select.option value="1">{{ __('Sí') }}</flux:select.option>
+            <flux:select.option value="0">{{ __('No') }}</flux:select.option>
+        </flux:select>
+    </div>
+
 </div>
 
 

@@ -18,6 +18,11 @@ class Province extends Model
         return 'uuid';
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function properties()
     {
         return $this->hasMany(Property::class);

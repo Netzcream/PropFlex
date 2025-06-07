@@ -24,7 +24,13 @@
             },
             prev() { if (this.index > 0) this.index--; },
             next() { if (this.index < this.images.length - 1) this.index++; }
-        }" class="relative mb-8">
+        }" x-init="$watch('open', value => {
+            if (value) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        })" class="relative mb-4">
             <!-- Imagen principal -->
             <img :src="images.length && images[index].url ? images[index].url : '{{ asset('img/placeholder.png') }}'"
                 :alt="images.length ? images[index].alt : 'Sin imagen'"
@@ -98,15 +104,21 @@
 
 
 
-
-
-
-
-
-
         {{-- Información principal --}}
         <div class="mb-6">
+            <div class="flex gap-x-2 mb-2">
+                <span class="px-3 py-1 rounded text-xs font-semibold shadow bg-gray-400 text-white">
+                    {{ ucfirst($property->propertyType) }}
+                </span>
+                <span class="px-3 py-1 rounded text-xs font-semibold shadow bg-gray-400 text-white">
+                    {{ ucfirst($property->propertyOperationType) }}
+                </span>
+            </div>
+
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+
+
+
                 <h1 class="text-2xl font-bold text-blue-800">{{ $property->title }}</h1>
                 <span
                     class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wide">
@@ -156,13 +168,21 @@
         @if ($property->features->count())
             <div class="mb-6">
                 <h3 class="text-base font-semibold text-blue-700 mb-2">Características</h3>
-                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                <div class="flex flex-wrap gap-2">
                     @foreach ($property->features as $feature)
-                        <li>{{ $feature->name }}</li>
+                        <span
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium shadow-sm border border-gray-200 dark:bg-white/10 dark:text-gray-200 dark:border-white/20">
+                            @if ($feature->icon)
+                                <i
+                                    class="fa-solid {{ $feature->icon }} text-base text-flux-primary dark:text-flux-primary-dark"></i>
+                            @endif
+                            {{ $feature->name }}
+                        </span>
                     @endforeach
-                </ul>
+                </div>
             </div>
         @endif
+
 
 
 
@@ -189,7 +209,13 @@
                 },
                 prevPlan() { if (this.planIndex > 0) this.planIndex--; },
                 nextPlan() { if (this.planIndex < this.plans.length - 1) this.planIndex++; }
-            }" class="mb-4">
+            }" x-init="$watch('planOpen', value => {
+                if (value) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            })" class="relative mb-4">
                 <h2 class="text-lg font-semibold text-blue-700 mb-2">Planos</h2>
                 <div class="grid grid-cols-3 md:grid-cols-4 gap-4">
                     <template x-for="(plan, idx) in plans" :key="idx">
@@ -234,7 +260,7 @@
             </div>
         @endif
         @if ($property->latitude && $property->longitude)
-            <div class="max-w-4xl mx-auto mt-8">
+            <div class="max-w-4xl mx-auto mt-8 ">
                 <h2 class="text-lg font-semibold text-blue-700 mb-2">Ubicación en el mapa</h2>
                 <div id="map" class="w-full rounded-xl shadow h-72"></div>
 
@@ -258,6 +284,7 @@
                             window.myMap.remove();
                         }
                         var map = L.map('map').setView([{{ $property->latitude }}, {{ $property->longitude }}], 16);
+                        map.getContainer().style.zIndex = 1;
                         window.myMap = map; // Guardar referencia global para limpiar después
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             maxZoom: 19,

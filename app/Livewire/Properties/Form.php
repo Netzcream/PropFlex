@@ -13,6 +13,7 @@ use App\Models\PropertyStatus;
 use App\Models\Province;
 use App\Models\City;
 use App\Models\Neighborhood;
+use App\Models\PropertyFeature;
 
 #[Layout('components.layouts.app')]
 class Form extends Component
@@ -59,6 +60,9 @@ class Form extends Component
     public $plans_to_delete = [];
 
 
+    public $allFeatures = [];
+    public $property_features = []; // IDs seleccionados
+
     public $editMode = false;
     public $property_id = null;
 
@@ -70,8 +74,17 @@ class Form extends Component
         $this->propertyOperationTypes = PropertyOperationType::orderBy('name')->get();
         $this->propertyStatuses = PropertyStatus::orderBy('name')->get();
         $this->provinces = Province::orderBy('name')->get();
+        $this->allFeatures = PropertyFeature::orderBy('name')->get();
 
         if ($property instanceof Property && $property->exists) {
+
+            /** @var User $user  */
+            $user = Auth::user(); // Una sola vez arriba
+            if ($user->hasRole('agente') && $property->user_id !== $user->id) {
+                abort(403, 'No tenés permiso para editar esta propiedad.');
+            }
+
+            $this->property_features = $property->features()->pluck('property_features.id')->toArray();
             $this->property_id = $property->id;
             $this->property_title = $property->title;
             $this->property_description = $property->description;
@@ -104,6 +117,7 @@ class Form extends Component
                 ? Neighborhood::where('city_id', $this->property_city_id)->orderBy('name')->get()
                 : collect();
         } else {
+            $this->property_features = [];
             $this->editMode = false;
             $this->cities = collect();
             $this->neighborhoods = collect();
@@ -167,8 +181,16 @@ class Form extends Component
             'plan_files.*' => 'nullable|file|max:4096',
         ]);
 
+
+
+
         if ($this->editMode && $this->property_id) {
             $property = Property::findOrFail($this->property_id);
+            /** @var User $user  */
+            $user = Auth::user(); // Una sola vez arriba
+            if ($user->hasRole('agente') && $property->user_id !== $user->id) {
+                abort(403, 'No tenés permiso para editar esta propiedad.');
+            }
         } else {
             $property = new Property();
             $property->user_id = Auth::id();
@@ -194,6 +216,8 @@ class Form extends Component
         $property->is_published = $this->property_is_published ?? false;
         $property->published_at = $this->property_published_at;
         $property->expires_at = $this->property_expires_at;
+
+        $property->features()->sync($this->property_features ?? []);
 
         $property->save();
 
