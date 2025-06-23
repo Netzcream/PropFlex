@@ -20,6 +20,8 @@ class Index extends Component
     public $userCount;
     public $lastContacts;
     public $expiringProps;
+    public $topVisited;
+    public $topFavorited;
 
     public function mount()
     {
@@ -28,6 +30,18 @@ class Index extends Component
         $this->propertiesDrafts = Property::where('is_published', false)->count();
         $this->contactsToday = Contact::whereDate('created_at', Carbon::today())->count();
         $this->contactsMonth = Contact::whereMonth('created_at', Carbon::now()->month)->count();
+
+        $this->topVisited = Property::withCount('visits')
+            ->orderByDesc('visits_count')
+            ->take(5)
+            ->get();
+
+        $this->topFavorited = Property::withCount('favorites')
+            ->orderByDesc('favorites_count')
+            ->take(5)
+            ->get();
+
+
         $this->userCount = User::count();
 
         $this->lastContacts = Contact::latest()->take(5)->with('property')->get();

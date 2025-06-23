@@ -14,6 +14,7 @@ class Form extends Component
     public $name = '';
     public $email = '';
     public $roles = [];
+    public $role = '';
     public $allRoles = [];
     public $password = '';
     public $password_confirmation = '';
@@ -37,6 +38,7 @@ class Form extends Component
             $this->email = '';
             $this->roles = [];
         }
+        $this->role = $user?->roles->pluck('name')->first() ?? '';
     }
 
     public function save()
@@ -49,8 +51,9 @@ class Form extends Component
                 'max:255',
                 Rule::unique('users', 'email')->ignore($this->user_id),
             ],
-            'roles' => 'array',
-            'roles.*' => ['string', Rule::in(array_values($this->allRoles))],
+            'rule' => ['required', Rule::in(array_values($this->allRoles))],
+            /*'roles' => 'array',
+            'roles.*' => ['string', Rule::in(array_values($this->allRoles))],*/
         ];
 
         // Password solo en alta o si se quiere cambiar
@@ -76,7 +79,7 @@ class Form extends Component
         $user->save();
 
         // Sync roles (Spatie)
-        $user->syncRoles($this->roles);
+        $user->syncRoles([$this->role]);
 
         session()->flash('success', $this->editMode ? 'Usuario actualizado' : 'Usuario creado');
 

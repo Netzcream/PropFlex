@@ -5,7 +5,7 @@
 
                 <div class="flex items-center justify-between gap-4 flex-wrap">
                     <div>
-                        <flux:heading size="xl" level="1">{{ __('Propíedades') }}</flux:heading>
+                        <flux:heading size="xl" level="1">{{ __('Propiedades') }}</flux:heading>
                         <flux:subheading size="lg" class="mb-6">{{ __('Agregá o edita tus propiedades') }}
                         </flux:subheading>
 

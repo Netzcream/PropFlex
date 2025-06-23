@@ -89,6 +89,7 @@ Route::middleware(['auth', 'verified', 'role:agente|admin'])->group(function () 
 
 #Provisorios
 Route::resource('properties', PropertyController::class)->only(['index', 'show'])->names('properties');
+
 Route::get('/properties/{property}/export', [\App\Http\Controllers\PropertyController::class, 'exportPdf'])->name('properties.export');
 
 Route::get('/about', function () {

@@ -48,27 +48,15 @@ class Property extends Model implements HasMedia
         'expires_at' => 'datetime',
     ];
 
-    /*public function getRouteKeyName()
-    {
-        return 'uuid';
-    }*/
-
-
     public function resolveRouteBinding($value, $field = null)
     {
-        // Primero intentá por slug
         $property = $this->where('slug', $value)->first();
-
-        // Si no existe por slug, probá como UUID
         if (! $property && preg_match('/^[0-9a-fA-F\-]{36}$/', $value)) {
             $property = $this->where('uuid', $value)->first();
         }
-
-        // Si no existe tampoco por uuid, intentá por id (opcional)
         if (! $property && is_numeric($value)) {
             $property = $this->where('id', $value)->first();
         }
-
         return $property ?? abort(404);
     }
 
@@ -153,12 +141,12 @@ class Property extends Model implements HasMedia
     }
 
     public function favorites()
-{
-    return $this->hasMany(Favorite::class);
-}
+    {
+        return $this->hasMany(Favorite::class);
+    }
 
-public function favoredByUsers()
-{
-    return $this->belongsToMany(User::class, 'favorites');
-}
+    public function favoredByUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
+    }
 }

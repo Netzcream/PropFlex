@@ -13,59 +13,38 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <flux:input
-                    wire:model.defer="name"
-                    label="Nombre"
-                    required
-                    autocomplete="off"
-                />
+                <flux:input wire:model.defer="name" label="Nombre" required autocomplete="off" />
             </div>
             <div>
-                <flux:input
-                    wire:model.defer="email"
-                    label="Email"
-                    required
-                    autocomplete="off"
-                    type="email"
-                />
+                <flux:input wire:model.defer="email" label="Email" required autocomplete="off" type="email" />
             </div>
         </div>
 
         <div>
-            <flux:label>Roles</flux:label>
-            <div class="flex flex-wrap gap-2">
+            <flux:label>Rol</flux:label>
+            <div class="flex flex-wrap gap-4">
                 @foreach ($allRoles as $id => $name)
                     <label class="inline-flex items-center gap-2 text-sm font-medium">
-                        <input type="checkbox" value="{{ $name }}" wire:model="roles"
-                            class="form-checkbox accent-blue-600 dark:accent-blue-400 rounded focus:ring-2 focus:ring-blue-500"
-                        >
+                        <input type="radio" value="{{ $name }}" wire:model="role"
+                            class="form-radio accent-blue-600 dark:accent-blue-400 rounded focus:ring-2 focus:ring-blue-500">
                         <span>{{ ucfirst($name) }}</span>
                     </label>
                 @endforeach
             </div>
-            @error('roles')
+            @error('role')
                 <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <flux:input
-                    wire:model.defer="password"
+                <flux:input wire:model.defer="password"
                     label="{{ $editMode ? 'Nueva contraseña (dejar vacío para no cambiar)' : 'Contraseña' }}"
-                    type="password"
-                    autocomplete="new-password"
-                    :required="!$editMode"
-                />
+                    type="password" autocomplete="new-password" :required="!$editMode" />
             </div>
             <div>
-                <flux:input
-                    wire:model.defer="password_confirmation"
-                    label="Repetir contraseña"
-                    type="password"
-                    autocomplete="new-password"
-                    :required="!$editMode"
-                />
+                <flux:input wire:model.defer="password_confirmation" label="Repetir contraseña" type="password"
+                    autocomplete="new-password" :required="!$editMode" />
             </div>
         </div>
 

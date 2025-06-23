@@ -104,6 +104,47 @@
         </table>
     </div>
 
+
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+    {{-- Top 5 propiedades más visitadas --}}
+    <div class="bg-white dark:bg-neutral-900 rounded-xl p-6 shadow">
+        <span class="text-lg font-semibold text-gray-700 dark:text-neutral-200 mb-3 block">Top 5 más visitadas</span>
+        <ul class="space-y-2">
+            @forelse($topVisited as $property)
+                <li class="flex justify-between items-center">
+                    <a href="{{ route('dashboard.properties.edit', $property->uuid) }}" class="text-blue-700 hover:underline">
+                        {{ $property->title }}
+                    </a>
+                    <span class="text-sm text-gray-500 dark:text-neutral-400">{{ $property->visits_count }} visitas</span>
+                </li>
+            @empty
+                <li class="text-gray-400 text-sm">No hay visitas registradas.</li>
+            @endforelse
+        </ul>
+    </div>
+
+    {{-- Top 5 propiedades favoritas --}}
+    <div class="bg-white dark:bg-neutral-900 rounded-xl p-6 shadow">
+        <span class="text-lg font-semibold text-gray-700 dark:text-neutral-200 mb-3 block">Top 5 en favoritos</span>
+        <ul class="space-y-2">
+            @forelse($topFavorited as $property)
+                <li class="flex justify-between items-center">
+                    <a href="{{ route('dashboard.properties.edit', $property->uuid) }}" class="text-blue-700 hover:underline">
+                        {{ $property->title }}
+                    </a>
+                    <span class="text-sm text-gray-500 dark:text-neutral-400">{{ $property->favorites_count }} favoritos</span>
+                </li>
+            @empty
+                <li class="text-gray-400 text-sm">No hay favoritos aún.</li>
+            @endforelse
+        </ul>
+    </div>
+</div>
+
+
+
+
     {{-- Enlaces rápidos --}}
     <div class="flex flex-wrap gap-3 mb-10">
         <a href="{{ route('dashboard.properties.create') }}" class="flux:button" icon="plus">

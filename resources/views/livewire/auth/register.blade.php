@@ -21,17 +21,39 @@ new #[Layout('components.layouts.auth')] class extends Component {
     {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                function ($attribute, $value, $fail) {
+                    if ($value) {
+                        if (strpos($value, '@') === false) {
+                            $fail(__('El dominio no es válido'));
+                            return;
+                        }
+                        [$user, $domain] = explode('@', $value);
+                        if (!$domain || !checkdnsrr($domain, 'MX')) {
+                            $fail('El dominio no es válido');
+                        }
+                    }
+                },
+                'min:7',
+                'max:100',
+                'unique:' . User::class,
+            ],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered(($user = User::create($validated))));
+        $user = User::create($validated);
+        $user->assignRole('visitante');
+        event(new Registered($user));
 
         Auth::login($user);
 
-        $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(route('home', absolute: false), navigate: true);
     }
 }; ?>
 
