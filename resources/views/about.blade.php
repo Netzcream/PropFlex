@@ -3,7 +3,7 @@
 @section('title', 'Quienes somos')
 
 @section('content')
-    <section class="max-w-6xl mx-auto px-4 pt-24 pb-8 text-center">
+    <section class="max-w-6xl mx-auto px-4 py-8 text-center">
         <h1 class="text-5xl font-extrabold text-gray-900 mb-4">Conocé PropFlex</h1>
         <p class="text-lg text-gray-600">
             Somos una inmobiliaria comprometida con brindar un servicio transparente, humano y profesional. Conocé nuestra
@@ -14,7 +14,7 @@
 
 
 
-    <section class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-4 py-16 items-center">
+    <section class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-4 items-center">
         <div>
             <h2 class="text-3xl font-bold mb-4">Comprometidos con tu próximo hogar</h2>
             <p class="text-lg">
@@ -29,7 +29,7 @@
         </div>
     </section>
 
-    <section class="bg-gray-50 py-16">
+    <section class="bg-gray-50 py-8">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-4 items-center">
             <div>
                 <img src="img/about/mision.png" alt="Agente inmobiliario trabajando"
@@ -50,7 +50,7 @@
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-4 py-16 items-center">
+    <section class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-4  pb-8 items-center">
         <div>
             <h2 class="text-3xl font-bold mb-4">Nuestro equipo</h2>
             <p class="text-lg">

@@ -130,7 +130,8 @@
                         {{ $users->links() }}
                     </div>
 
-                    <flux:modal name="confirm-delete-user" class="min-w-[22rem]">
+                    <flux:modal name="confirm-delete-user" class="min-w-[22rem]" x-data
+                        @user-deleted.window="$dispatch('modal-close', { name: 'confirm-delete-user' })">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">{{ __('¿Eliminar usuario?') }}</flux:heading>
@@ -150,35 +151,7 @@
                         </div>
                     </flux:modal>
 
-                    <script>
-                        let livewireListenersRegistered = false;
 
-                        function registerLivewireListeners() {
-                            if (livewireListenersRegistered) return;
-
-                            window.Livewire.on('user-deleted', () => {
-                                const modal = document.querySelector(`dialog[data-modal="confirm-delete-user"]`);
-                                if (modal) {
-                                    modal.dispatchEvent(new CustomEvent('modal-close', {
-                                        bubbles: true,
-                                        detail: {
-                                            name: 'confirm-delete-user'
-                                        }
-                                    }));
-                                }
-                            });
-
-                            livewireListenersRegistered = true;
-                        }
-
-                        document.addEventListener('DOMContentLoaded', () => {
-                            registerLivewireListeners();
-                        });
-
-                        document.addEventListener('livewire:navigated', () => {
-                            registerLivewireListeners();
-                        });
-                    </script>
                 </div>
             </section>
         </div>

@@ -126,7 +126,7 @@ class Property extends Model implements HasMedia
     {
         return $this->hasMany(PropertyVisit::class);
     }
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
             ->width(300)

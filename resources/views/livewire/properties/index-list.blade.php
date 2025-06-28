@@ -289,7 +289,8 @@
         {{ $properties->links() }}
     </div>
 
-    <flux:modal name="confirm-delete-property" class="min-w-[22rem]">
+    <flux:modal name="confirm-delete-property" class="min-w-[22rem]" x-data
+        @property-deleted.window="$dispatch('modal-close', { name: 'confirm-delete-property' })">
         <div class="space-y-6">
             <div>
                 <flux:heading size="lg">{{ __('¿Eliminar propiedad?') }}</flux:heading>
@@ -308,40 +309,4 @@
             </div>
         </div>
     </flux:modal>
-
-
-    <script>
-        let livewireListenersRegistered = false;
-
-        function registerLivewireListeners() {
-            if (livewireListenersRegistered) return;
-
-            window.Livewire.on('property-deleted', () => {
-                const modal = document.querySelector(`dialog[data-modal="confirm-delete-property"]`);
-                if (modal) {
-                    modal.dispatchEvent(new CustomEvent('modal-close', {
-                        bubbles: true,
-                        detail: {
-                            name: 'confirm-delete-property'
-                        }
-                    }));
-                }
-            });
-
-
-            livewireListenersRegistered = true;
-        }
-
-        // Ejecutar al cargar la página completamente
-        document.addEventListener('DOMContentLoaded', () => {
-            registerLivewireListeners();
-        });
-
-        // Ejecutar también después de que Livewire haya navegado a una nueva página
-        document.addEventListener('livewire:navigated', () => {
-            registerLivewireListeners();
-        });
-    </script>
-
-
 </div>

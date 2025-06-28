@@ -1,7 +1,9 @@
 <div class="relative">
     {{-- Favorito arriba del card --}}
     @auth
-        <livewire:toggle-favorite-button :property="$property" top="top-6" right="right-6" />
+        @can('gestionar favoritos')
+            <livewire:toggle-favorite-button :property="$property" top="top-6" right="right-6" />
+        @endcan
     @endauth
     <a href="{{ route('properties.show', ['property' => $property->slug]) }}" wire:navigate
         class="bg-white rounded-xl shadow p-4 flex flex-col">

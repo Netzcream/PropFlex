@@ -41,10 +41,10 @@
                         @forelse ($propertyFeatures as $row)
                             <tr>
                                 <td class="px-6 py-4">
-                                    @if($row->icon)
-                                    <i class="fa-solid {{$row->icon}}"></i>
+                                    @if ($row->icon)
+                                        <i class="fa-solid {{ $row->icon }}"></i>
                                     @else
-                                    -
+                                        -
                                     @endif
 
                                 </td>
@@ -57,7 +57,7 @@
                                 </td>
 
                                 <td class="px-6 py-4 text-end text-sm font-medium">
-                                    @if (auth()->user()->isAdmin())
+                                    @can('gestionar recursos')
                                         <span
                                             class="text-xs text-gray-400 dark:text-neutral-500 inline-flex items-center whitespace-nowrap">
 
@@ -77,7 +77,7 @@
                                     @else
                                         <span
                                             class="text-xs text-gray-400 dark:text-neutral-500 inline-flex items-center whitespace-nowrap">{{ __('Sin permisos') }}</span>
-                                    @endif
+                                    @endcan
                                 </td>
                             </tr>
                         @empty
@@ -98,59 +98,31 @@
         {{ $propertyFeatures->links() }}
     </div>
 
-    <flux:modal name="confirm-delete-property-feature" class="min-w-[22rem]">
-        <div class="space-y-6">
-            <div>
-                <flux:heading size="lg">{{ __('¿Eliminar propiedad?') }}</flux:heading>
-                <flux:text class="mt-2">
-                    {{ __('Esta acción eliminará característica. ¿Estás seguro?') }}
-                </flux:text>
-            </div>
-            <div class="flex gap-2">
-                <flux:spacer />
-                <flux:modal.close>
-                    <flux:button variant="ghost">{{ __('Cancelar') }}</flux:button>
-                </flux:modal.close>
-                <flux:button wire:click="delete" variant="danger">
-                    {{ __('Sí, eliminar') }}
-                </flux:button>
-            </div>
+
+
+
+    <flux:modal name="confirm-delete-property-feature"
+    x-data
+    @property-feature-deleted.window="$dispatch('modal-close', { name: 'confirm-delete-property-feature' })"
+    class="min-w-[22rem]">
+    <div class="space-y-6">
+        <div>
+            <flux:heading size="lg">{{ __('¿Eliminar propiedad?') }}</flux:heading>
+            <flux:text class="mt-2">
+                {{ __('Esta acción eliminará característica. ¿Estás seguro?') }}
+            </flux:text>
         </div>
-    </flux:modal>
-
-
-    <script>
-        let livewireListenersRegistered = false;
-
-        function registerLivewireListeners() {
-            if (livewireListenersRegistered) return;
-
-            window.Livewire.on('property-feature-deleted', () => {
-                const modal = document.querySelector(`dialog[data-modal="confirm-delete-property-feature"]`);
-                if (modal) {
-                    modal.dispatchEvent(new CustomEvent('modal-close', {
-                        bubbles: true,
-                        detail: {
-                            name: 'confirm-delete-property-feature'
-                        }
-                    }));
-                }
-            });
-
-
-            livewireListenersRegistered = true;
-        }
-
-        // Ejecutar al cargar la página completamente
-        document.addEventListener('DOMContentLoaded', () => {
-            registerLivewireListeners();
-        });
-
-        // Ejecutar también después de que Livewire haya navegado a una nueva página
-        document.addEventListener('livewire:navigated', () => {
-            registerLivewireListeners();
-        });
-    </script>
+        <div class="flex gap-2">
+            <flux:spacer />
+            <flux:modal.close>
+                <flux:button variant="ghost">{{ __('Cancelar') }}</flux:button>
+            </flux:modal.close>
+            <flux:button wire:click="delete" variant="danger">
+                {{ __('Sí, eliminar') }}
+            </flux:button>
+        </div>
+    </div>
+</flux:modal>
 
 
 </div>

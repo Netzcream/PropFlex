@@ -12,11 +12,26 @@ use App\Models\PropertyType;
 use App\Models\PropertyOperationType;
 use App\Models\PropertyStatus;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+
 
 class PropertySeeder extends Seeder
 {
     public function run()
     {
+        $storagePath = public_path('storage');
+        $items = File::allFiles($storagePath);
+        $dirs = File::directories($storagePath);
+        foreach ($items as $file) {
+            File::delete($file);
+        }
+
+        foreach ($dirs as $dir) {
+            File::deleteDirectory($dir);
+        }
+
+        //Media::truncate();
+
         $users = User::take(2)->get();
 
         if ($users->count() < 2) {
@@ -41,10 +56,12 @@ class PropertySeeder extends Seeder
                 'slug'  => 'depto-moderno-palermo',
                 'desc'  => 'Luminoso 3 ambientes con balcón y amenities.',
                 'price' => 150000,
-                'rooms' => 3,
-                'baths' => 2,
-                'surface' => 80,
+                'rooms' => 2,
+                'baths' => 1,
+                'surface' => 55,
                 'address' => 'Av. Santa Fe 1234',
+                'images' => ['img/properties/palermo/1.png', 'img/properties/palermo/2.png', 'img/properties/palermo/3.png', 'img/properties/palermo/4.png', 'img/properties/palermo/5.png'],
+                'plans' => ['img/properties/palermo/plano.png'],
             ],
             [
                 'province' => 'CABA',
@@ -61,6 +78,8 @@ class PropertySeeder extends Seeder
                 'baths' => 1,
                 'surface' => 52,
                 'address' => 'Av. Rivadavia 4567',
+                'images' => ['img/properties/caballito/1.png', 'img/properties/caballito/2.png', 'img/properties/caballito/3.png', 'img/properties/caballito/4.png', 'img/properties/caballito/5.png'],
+                'plans' => ['img/properties/caballito/plano.png'],
             ],
             [
                 'province' => 'CABA',
@@ -77,6 +96,8 @@ class PropertySeeder extends Seeder
                 'baths' => 2,
                 'surface' => 200,
                 'address' => 'Virrey Loreto 3001',
+                'images' => ['img/properties/belgrano/1.png', 'img/properties/belgrano/2.png', 'img/properties/belgrano/3.png', 'img/properties/belgrano/4.png', 'img/properties/belgrano/5.png'],
+                'plans' => ['img/properties/belgrano/plano.png'],
             ],
             [
                 'province' => 'CABA',
@@ -93,6 +114,8 @@ class PropertySeeder extends Seeder
                 'baths' => 1,
                 'surface' => 70,
                 'address' => 'Uruguay 1234',
+                'images' => ['img/properties/recoleta/1.png', 'img/properties/recoleta/2.png', 'img/properties/recoleta/3.png', 'img/properties/recoleta/4.png', 'img/properties/recoleta/5.png'],
+                'plans' => ['img/properties/recoleta/plano.png'],
             ],
             [
                 'province' => 'CABA',
@@ -109,6 +132,8 @@ class PropertySeeder extends Seeder
                 'baths' => 2,
                 'surface' => 160,
                 'address' => 'Chivilcoy 4002',
+                'images' => ['img/properties/devoto/1.png', 'img/properties/devoto/2.png', 'img/properties/devoto/3.png', 'img/properties/devoto/4.png', 'img/properties/devoto/5.png'],
+                'plans' => ['img/properties/devoto/plano1.png', 'img/properties/devoto/plano2.png', 'img/properties/devoto/plano3.png'],
             ],
             // --- Provincia de Buenos Aires ---
             [
@@ -126,6 +151,8 @@ class PropertySeeder extends Seeder
                 'baths' => 3,
                 'surface' => 180,
                 'address' => 'Calle 50 Nº 1123',
+                'images' => ['img/properties/la_plata/1.png', 'img/properties/la_plata/2.png', 'img/properties/la_plata/3.png', 'img/properties/la_plata/4.png', 'img/properties/la_plata/5.png'],
+                'plans' => ['img/properties/la_plata/plano.png'],
             ],
             [
                 'province' => 'BA',
@@ -142,6 +169,8 @@ class PropertySeeder extends Seeder
                 'baths' => 1,
                 'surface' => 38,
                 'address' => 'Calle 2 Nº 2345',
+                'images' => ['img/properties/la_plata_2/1.png', 'img/properties/la_plata_2/2.png', 'img/properties/la_plata_2/3.png', 'img/properties/la_plata_2/4.png', 'img/properties/la_plata_2/5.png'],
+                'plans' => ['img/properties/la_plata_2/plano.png'],
             ],
             [
                 'province' => 'BA',
@@ -158,6 +187,8 @@ class PropertySeeder extends Seeder
                 'baths' => 1,
                 'surface' => 49,
                 'address' => 'Boulevard Marítimo 123',
+                'images' => ['img/properties/mdq/1.png', 'img/properties/mdq/2.png', 'img/properties/mdq/3.png', 'img/properties/mdq/4.png', 'img/properties/mdq/5.png'],
+                'plans' => ['img/properties/mdq/plano.png'],
             ],
             [
                 'province' => 'BA',
@@ -195,7 +226,7 @@ class PropertySeeder extends Seeder
                 'province' => 'BA',
                 'city' => 'PER',
                 'neigh' => 'CENTRO',
-                'type' => 'OFIC',
+                'type' => 'OFICINA',
                 'op' => 'RENT',
                 'code' => 'FP-011',
                 'title' => 'Oficina céntrica en Pergamino',
@@ -206,9 +237,30 @@ class PropertySeeder extends Seeder
                 'baths' => 1,
                 'surface' => 20,
                 'address' => 'Mitre 678',
+                'images' => ['img/properties/pergamino/1.png', 'img/properties/pergamino/2.png', 'img/properties/pergamino/3.png', 'img/properties/pergamino/4.png', 'img/properties/pergamino/5.png'],
+                'plans' => ['img/properties/pergamino/plano.png'],
             ],
         ];
         $userIds = [$user1->id, $user2->id];
+
+
+        // Agregá un barrio "CENTRO" a toda ciudad que no tenga ninguno.
+        $allCities = \App\Models\City::all();
+        foreach ($allCities as $city) {
+            $hasNeighborhood = \App\Models\Neighborhood::where('city_id', $city->id)->exists();
+            if (! $hasNeighborhood) {
+                \App\Models\Neighborhood::firstOrCreate(
+                    [
+                        'code' => 'CENTRO',
+                        'city_id' => $city->id,
+                    ],
+                    [
+                        'uuid' => \Illuminate\Support\Str::uuid(),
+                        'name' => 'Centro',
+                    ]
+                );
+            }
+        }
 
         foreach ($data as $item) {
             $province = Province::where('code', $item['province'])->first();
@@ -218,7 +270,7 @@ class PropertySeeder extends Seeder
             $op   = PropertyOperationType::where('code', $item['op'])->first();
 
             if ($province && $city && $type && $op && $statusDisp) {
-                Property::create([
+                $property = Property::create([
                     'user_id'                    => $userIds[array_rand($userIds)],
                     'uuid'                       => Str::uuid(),
                     'title'                      => $item['title'],
@@ -242,27 +294,35 @@ class PropertySeeder extends Seeder
                     'is_featured' => random_int(1, 100) <= 30,
 
                 ]);
+
+                if (!empty($item['images'])) {
+                    foreach ($item['images'] as $imgPath) {
+                        $fullPath = public_path($imgPath);
+                        if (file_exists($fullPath)) {
+                            $property->addMedia($fullPath)->preservingOriginal()->toMediaCollection('photos');
+                        }
+                    }
+                }
+
+                // Asociar planos
+                if (!empty($item['plans'])) {
+                    foreach ($item['plans'] as $planPath) {
+                        $fullPath = public_path($planPath);
+                        if (file_exists($fullPath)) {
+                            $property->addMedia($fullPath)->preservingOriginal()->toMediaCollection('plans');
+                        }
+                    }
+                }
+            } else {
+                $this->command->error("No se pudo crear la propiedad: {$item['title']}. Verifica que existan provincia, ciudad, tipo de propiedad y tipo de operación. ");
+
+                 $this->command->error("Faltan datos: Provincia: {$province?->code}, Ciudad: {$city?->code}, Tipo: {$type?->code}, Operación: {$op?->code}, Estado: {$statusDisp?->code}");
+
             }
         }
 
         // Después de cargar los barrios específicos...
 
-        // Agregá un barrio "CENTRO" a toda ciudad que no tenga ninguno.
-        $allCities = \App\Models\City::all();
-        foreach ($allCities as $city) {
-            $hasNeighborhood = \App\Models\Neighborhood::where('city_id', $city->id)->exists();
-            if (! $hasNeighborhood) {
-                \App\Models\Neighborhood::firstOrCreate(
-                    [
-                        'code' => 'CENTRO',
-                        'city_id' => $city->id,
-                    ],
-                    [
-                        'uuid' => \Illuminate\Support\Str::uuid(),
-                        'name' => 'Centro',
-                    ]
-                );
-            }
-        }
+
     }
 }

@@ -14,11 +14,11 @@ class RoleAndPermissionSeeder extends Seeder
     {
         // 1. Definir permisos
         $permissions = [
-            'ver propiedades',
-            'crear propiedades',
-            'editar propiedades',
-            'eliminar propiedades',
+            'gestionar propiedades',
             'gestionar usuarios',
+            'gestionar recursos',
+            'gestionar contactos',
+            'gestionar favoritos'
         ];
 
         foreach ($permissions as $permission) {
@@ -28,19 +28,25 @@ class RoleAndPermissionSeeder extends Seeder
         // 2. Definir roles y sus permisos
         $roles = [
             'admin' => [
-                'ver propiedades',
-                'crear propiedades',
-                'editar propiedades',
-                'eliminar propiedades',
+                'gestionar propiedades',
                 'gestionar usuarios',
+                'gestionar recursos',
+                'gestionar contactos',
+                'gestionar favoritos'
             ],
             'agente' => [
-                'ver propiedades',
-                'crear propiedades',
-                'editar propiedades',
+                'gestionar propiedades',
+                'gestionar recursos',
+                'gestionar contactos',
+                'gestionar favoritos'
             ],
+            'editor' => [
+                'gestionar recursos',
+                'gestionar favoritos'
+            ],
+
             'visitante' => [
-                'ver propiedades',
+                'gestionar favoritos'
             ],
         ];
 
@@ -53,7 +59,7 @@ class RoleAndPermissionSeeder extends Seeder
         $admin = User::firstOrCreate(
             ['email' => 'admin@propflex.netzcream.com.ar'],
             [
-                'name' => 'Administrador',
+                'name' => 'Ricardo Admin',
                 'password' => Hash::make('flexpropZYXW'),
             ]
         );
@@ -64,13 +70,25 @@ class RoleAndPermissionSeeder extends Seeder
         $agente = User::firstOrCreate(
             ['email' => 'agente@propflex.netzcream.com.ar'],
             [
-                'name' => 'Agente',
+                'name' => 'Roberto Gomez Agente',
                 'password' => Hash::make('flexpropZYXW'),
             ]
         );
 
         if (!$agente->hasRole('agente')) {
             $agente->assignRole('agente');
+        }
+
+        $agente = User::firstOrCreate(
+            ['email' => 'editor@propflex.netzcream.com.ar'],
+            [
+                'name' => 'Juan Carlos Editor',
+                'password' => Hash::make('flexpropZYXW'),
+            ]
+        );
+
+        if (!$agente->hasRole('editor')) {
+            $agente->assignRole('editor');
         }
 
         $user = User::firstOrCreate(

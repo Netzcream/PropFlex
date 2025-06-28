@@ -57,13 +57,12 @@
                                 </td>
 
                                 <td class="px-6 py-4 text-end text-sm font-medium">
-                                    @if (auth()->user()->isAdmin())
+                                    @can('gestionar recursos')
                                         <span
                                             class="text-xs text-gray-400 dark:text-neutral-500 inline-flex items-center whitespace-nowrap">
 
 
-                                            <a wire:navigate
-                                                href="{{ route('dashboard.property-types.edit', $row->uuid) }}"
+                                            <a wire:navigate href="{{ route('dashboard.property-types.edit', $row->uuid) }}"
                                                 class="inline-flex items-center gap-x-2 text-sm  rounded-lg border border-transparent text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400">
                                                 {{ __('Editar') }}
                                             </a>
@@ -77,7 +76,7 @@
                                     @else
                                         <span
                                             class="text-xs text-gray-400 dark:text-neutral-500 inline-flex items-center whitespace-nowrap">{{ __('Sin permisos') }}</span>
-                                    @endif
+                                    @endcan
                                 </td>
 
 
@@ -105,7 +104,9 @@
         {{ $propertyTypes->links() }}
     </div>
 
-    <flux:modal name="confirm-delete-property-type" class="min-w-[22rem]">
+    <flux:modal name="confirm-delete-property-type" x-data
+        @property-type-deleted.window="$dispatch('modal-close', { name: 'confirm-delete-property-type' })"
+        class="min-w-[22rem]">
         <div class="space-y-6">
             <div>
                 <flux:heading size="lg">{{ __('¿Eliminar propiedad?') }}</flux:heading>
@@ -124,40 +125,4 @@
             </div>
         </div>
     </flux:modal>
-
-
-    <script>
-        let livewireListenersRegistered = false;
-
-        function registerLivewireListeners() {
-            if (livewireListenersRegistered) return;
-
-            window.Livewire.on('property-type-deleted', () => {
-                const modal = document.querySelector(`dialog[data-modal="confirm-delete-property-type"]`);
-                if (modal) {
-                    modal.dispatchEvent(new CustomEvent('modal-close', {
-                        bubbles: true,
-                        detail: {
-                            name: 'confirm-delete-property-type'
-                        }
-                    }));
-                }
-            });
-
-
-            livewireListenersRegistered = true;
-        }
-
-        // Ejecutar al cargar la página completamente
-        document.addEventListener('DOMContentLoaded', () => {
-            registerLivewireListeners();
-        });
-
-        // Ejecutar también después de que Livewire haya navegado a una nueva página
-        document.addEventListener('livewire:navigated', () => {
-            registerLivewireListeners();
-        });
-    </script>
-
-
 </div>

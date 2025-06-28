@@ -40,9 +40,9 @@
                 @click="if(images.length) open = true" />
 
             @auth
-
-                <livewire:toggle-favorite-button :property="$property" top="top-4" right="right-4" />
-
+                @can('gestionar favoritos')
+                    <livewire:toggle-favorite-button :property="$property" top="top-4" right="right-4" />
+                @endcan
             @endauth
 
             <!-- Galería thumbnails: grid de 6 columnas -->

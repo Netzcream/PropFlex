@@ -148,7 +148,8 @@
                         {{ $contacts->links() }}
                     </div>
 
-                    <flux:modal name="confirm-delete-contact" class="min-w-[22rem]">
+                    <flux:modal name="confirm-delete-contact" class="min-w-[22rem]" x-data
+                        @contact-deleted.window="$dispatch('modal-close', { name: 'confirm-delete-contact' })">
                         <div class="space-y-6">
                             <div>
                                 <flux:heading size="lg">{{ __('¿Eliminar contacto?') }}</flux:heading>
@@ -168,35 +169,7 @@
                         </div>
                     </flux:modal>
 
-                    <script>
-                        let livewireListenersRegistered = false;
 
-                        function registerLivewireListeners() {
-                            if (livewireListenersRegistered) return;
-
-                            window.Livewire.on('contact-deleted', () => {
-                                const modal = document.querySelector(`dialog[data-modal="confirm-delete-contact"]`);
-                                if (modal) {
-                                    modal.dispatchEvent(new CustomEvent('modal-close', {
-                                        bubbles: true,
-                                        detail: {
-                                            name: 'confirm-delete-contact'
-                                        }
-                                    }));
-                                }
-                            });
-
-                            livewireListenersRegistered = true;
-                        }
-
-                        document.addEventListener('DOMContentLoaded', () => {
-                            registerLivewireListeners();
-                        });
-
-                        document.addEventListener('livewire:navigated', () => {
-                            registerLivewireListeners();
-                        });
-                    </script>
 
                 </div>
             </section>

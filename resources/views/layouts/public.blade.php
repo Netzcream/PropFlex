@@ -76,10 +76,12 @@
                                     <a href="{{ route('profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                                         wire:navigate>Mi perfil</a>
                                 </li>
-                                <li>
-                                    <a href="{{ route('properties.index', ['favorites' => true]) }}"
-                                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100" wire:navigate>Favoritos</a>
-                                </li>
+                                @can('gestionar favoritos')
+                                    <li>
+                                        <a href="{{ route('properties.index', ['favorites' => true]) }}"
+                                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100" wire:navigate>Favoritos</a>
+                                    </li>
+                                @endcan
 
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
@@ -109,41 +111,45 @@
     </main>
 
     <!-- Footer -->
-<footer class="bg-gray-900 text-gray-400 mt-16 pt-12 pb-6">
-    <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8 text-sm">
+    <footer class="bg-gray-900 text-gray-400 mt-16 pt-12 pb-6">
+        <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8 text-sm">
 
-        <!-- Columna 1: Marca -->
-        <div>
-            <h2 class="text-white text-xl font-semibold mb-2">PropFlex</h2>
-            <p class="text-gray-400">
-                Proyecto inmobiliario con base en Buenos Aires. Acompañamos personas en la compra, venta y alquiler de propiedades.
-            </p>
+            <!-- Columna 1: Marca -->
+            <div>
+                <h2 class="text-white text-xl font-semibold mb-1 flex items-center">
+                    <x-app-logo-icon class="size-5 fill-current text-white inline-block mr-2" />
+                    PropFlex
+                </h2>
+                <p class="text-gray-400">
+                    Proyecto inmobiliario con base en Buenos Aires. Acompañamos personas en la compra, venta y alquiler
+                    de propiedades.
+                </p>
+            </div>
+
+            <!-- Columna 2: Navegación -->
+            <div>
+                <h3 class="text-white text-sm font-bold mb-2">Navegación</h3>
+                <ul class="space-y-1">
+                    <li><a href="{{ route('home') }}" class="hover:text-white">Inicio</a></li>
+                    <li><a href="{{ route('properties.index') }}" class="hover:text-white">Propiedades</a></li>
+                    <li><a href="{{ route('about') }}" class="hover:text-white">Quiénes somos</a></li>
+                    <li><a href="{{ route('contact') }}" class="hover:text-white">Contacto</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Legal / contacto -->
+            <div>
+                <h3 class="text-white text-sm font-bold mb-2">Contacto</h3>
+                <p>Email: <a href="mailto:info@propflex.com" class="hover:text-white">info@propflex.com</a></p>
+                <p>Tel: <a href="tel:+541100000000" class="hover:text-white">+54 11 0000 0000</a></p>
+                <p class="mt-2">Buenos Aires, Argentina</p>
+            </div>
         </div>
 
-        <!-- Columna 2: Navegación -->
-        <div>
-            <h3 class="text-white text-sm font-bold mb-2">Navegación</h3>
-            <ul class="space-y-1">
-                <li><a href="{{ route('home') }}" class="hover:text-white">Inicio</a></li>
-                <li><a href="{{ route('properties.index') }}" class="hover:text-white">Propiedades</a></li>
-                <li><a href="{{ route('about') }}" class="hover:text-white">Quiénes somos</a></li>
-                <li><a href="{{ route('contact') }}" class="hover:text-white">Contacto</a></li>
-            </ul>
+        <div class="border-t border-gray-700 mt-10 pt-4 text-center text-xs text-gray-500">
+            &copy; {{ date('Y') }} PropFlex — Todos los derechos reservados.
         </div>
-
-        <!-- Columna 3: Legal / contacto -->
-        <div>
-            <h3 class="text-white text-sm font-bold mb-2">Contacto</h3>
-            <p>Email: <a href="mailto:info@propflex.com" class="hover:text-white">info@propflex.com</a></p>
-            <p>Tel: <a href="tel:+541100000000" class="hover:text-white">+54 11 0000 0000</a></p>
-            <p class="mt-2">Buenos Aires, Argentina</p>
-        </div>
-    </div>
-
-    <div class="border-t border-gray-700 mt-10 pt-4 text-center text-xs text-gray-500">
-        &copy; {{ date('Y') }} PropFlex — Todos los derechos reservados.
-    </div>
-</footer>
+    </footer>
 
 
     @stack('scripts')

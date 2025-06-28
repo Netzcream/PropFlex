@@ -15,58 +15,60 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Plataforma')" class="grid">
-                <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
-                    wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                <flux:navlist.item icon="home" :href="route('dashboard')"
+                    :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}
+                </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
-
-
         <flux:navlist variant="outline">
-            <flux:navlist.group :heading="__('Gestión')">
-                <flux:navlist.item icon="home-modern" :href="route('dashboard.properties.index')"
-                    :current="request()->routeIs('properties.*')" wire:navigate>
-                    {{ __('Propiedades') }}
-                </flux:navlist.item>
-                <flux:navlist.item icon="envelope" :href="route('dashboard.contacts.index')"
-                    :current="request()->routeIs('contacts.*')" wire:navigate>
-                    {{ __('Contactos') }}
-                </flux:navlist.item>
-                <flux:navlist.item icon="users" :href="route('dashboard.users.index')"
-                        :current="request()->routeIs('users.*')" wire:navigate>
-                        {{ __('Usuarios') }}
-                    </flux:navlist.item>
-                @can('manage users')
+            @canany(['gestionar propiedades', 'gestionar contactos', 'gestionar usuarios'])
 
-                @endcan
-            </flux:navlist.group>
+                <flux:navlist.group :heading="__('Gestión')">
+                    @can('gestionar propiedades')
+                        <flux:navlist.item icon="home-modern" :href="route('dashboard.properties.index')"
+                            :current="request()->routeIs('properties.*')" wire:navigate>
+                            {{ __('Propiedades') }}
+                        </flux:navlist.item>
+                    @endcan
+                    @can('gestionar contactos')
+                        <flux:navlist.item icon="envelope" :href="route('dashboard.contacts.index')"
+                            :current="request()->routeIs('contacts.*')" wire:navigate>
+                            {{ __('Contactos') }}
+                        </flux:navlist.item>
+                    @endcan
+                    @can('gestionar usuarios')
+                        <flux:navlist.item icon="users" :href="route('dashboard.users.index')"
+                            :current="request()->routeIs('users.*')" wire:navigate>
+                            {{ __('Usuarios') }}
+                        </flux:navlist.item>
+                    @endcan
+                </flux:navlist.group>
+            @endcanany
 
-            <flux:navlist.group :heading="__('Catálogos')">
-                <flux:navlist.item icon="star" :href="route('dashboard.property-features.index')"
-                    :current="request()->routeIs('property-features.*')" wire:navigate>
-                    {{ __('Características') }}
-                </flux:navlist.item>
-                <flux:navlist.item icon="building" :href="route('dashboard.property-types.index')"
-                    :current="request()->routeIs('property-types.*')" wire:navigate>
-                    {{ __('Tipos de propiedad') }}
-                </flux:navlist.item>
-                @can('manage locations')
-                    <flux:navlist.item icon="map" :href="route('dashboard.locations.index')"
-                        :current="request()->routeIs('locations.*')" wire:navigate>
-                        {{ __('Ubicaciones') }}
-                    </flux:navlist.item>
-                @endcan
-            </flux:navlist.group>
+            @canany(['gestionar recursos'])
+                <flux:navlist.group :heading="__('Catálogos')">
+                    @can('gestionar recursos')
+                        <flux:navlist.item icon="star" :href="route('dashboard.property-features.index')"
+                            :current="request()->routeIs('property-features.*')" wire:navigate>
+                            {{ __('Características') }}
+                        </flux:navlist.item>
+                    @endcan
+                    @can('gestionar recursos')
+                        <flux:navlist.item icon="building" :href="route('dashboard.property-types.index')"
+                            :current="request()->routeIs('property-types.*')" wire:navigate>
+                            {{ __('Tipos de propiedad') }}
 
+                        </flux:navlist.item>
+                    @endcan
+                    @can('gestionar recursos')
+                        <flux:navlist.item icon="map" :href="route('dashboard.locations.index')"
+                            :current="request()->routeIs('locations.*')" wire:navigate>
+                            {{ __('Ubicaciones') }}
+                        </flux:navlist.item>
+                    @endcan
+                </flux:navlist.group>
+            @endcanany
 
-{{--
-            <flux:navlist.group :heading="__('Extras')">
-                <flux:navlist.item icon="chart-bar" :href="route('dashboard.reports.index')"
-                    :current="request()->routeIs('reports.*')" wire:navigate>
-                    {{ __('Estadísticas') }}
-                </flux:navlist.item>
-
-            </flux:navlist.group>
-            --}}
         </flux:navlist>
 
 

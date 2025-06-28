@@ -28,7 +28,7 @@ Route::GET('/', [HomeController::class, 'index'])
 
 
 
-Route::middleware(['auth', 'verified', 'role:agente|admin'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:agente|admin|editor'])->group(function () {
 
     // Dashboard
     //Route::get('/dashboard', fn() =>  view('dashboard'))->name('dashboard');
@@ -43,27 +43,27 @@ Route::middleware(['auth', 'verified', 'role:agente|admin'])->group(function () 
             Route::get('/', PropertiesIndex::class)->name('index');
             Route::get('/create', PropertiesForm::class)->name('create');
             Route::get('/{property}/edit', PropertiesForm::class)->name('edit');
-        });
+        })->middleware('role:agente|admin');
 
 
         Route::prefix('property-types')->name('property-types.')->group(function () {
             Route::get('/', PropertyTypesIndex::class)->name('index');
             Route::get('/create', PropertyTypesForm::class)->name('create');
             Route::get('/{property}/edit', PropertyTypesForm::class)->name('edit');
-        });
+        })->middleware('role:agente|admin|editor');
 
 
         Route::prefix('property-features')->name('property-features.')->group(function () {
             Route::get('/', PropertyFeaturesIndex::class)->name('index');
             Route::get('/create', PropertyFeaturesForm::class)->name('create');
             Route::get('/{property}/edit', PropertyFeaturesForm::class)->name('edit');
-        });
+        })->middleware('role:agente|admin|editor');
 
         Route::prefix('contacts')->name('contacts.')->group(function () {
             Route::get('/', ContactIndex::class)->name('index');
 
             Route::get('/{contact}', ContactShow::class)->name('show');
-        });
+        })->middleware('role:agente|admin');
 
         // Usuarios
         Route::prefix('users')->name('users.')->group(function () {
@@ -78,7 +78,7 @@ Route::middleware(['auth', 'verified', 'role:agente|admin'])->group(function () 
             Route::get('/provinces', fn() => 'Listado de Provincias')->name('provinces');
             Route::get('/cities', fn() => 'Listado de Ciudades')->name('cities');
             Route::get('/neighborhoods', fn() => 'Listado de Barrios')->name('neighborhoods');
-        })->middleware('role:admin');
+        })->middleware('role:admin|agente|editor');
 
         // Estadísticas
         Route::get('/reports', fn() => 'Estadísticas')->name('reports.index');
