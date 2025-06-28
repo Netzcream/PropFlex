@@ -30,14 +30,22 @@
             <a href="{{ route('home') }}" class="text-2xl font-bold text-blue-700" wire:navigate>PropFlex</a>
             <nav>
                 <ul class="flex gap-4">
-                    <li><a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 transition"
+                    <li>
+                        <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 transition"
                             wire:navigate>Inicio</a>
                     </li>
-                    <li><a href="{{ route('properties.index') }}" class="text-gray-700 hover:text-blue-600 transition"
-                            wire:navigate>Propiedades</a></li>
-                    <li><a href="{{ route('contact') }}" class="text-gray-700 hover:text-blue-600 transition"
-                            wire:navigate>Contacto</a></li>
-
+                    <li>
+                        <a href="{{ route('properties.index') }}" class="text-gray-700 hover:text-blue-600 transition"
+                            wire:navigate>Propiedades</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('about') }}" class="text-gray-700 hover:text-blue-600 transition"
+                            wire:navigate>Quienes somos</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('contact') }}" class="text-gray-700 hover:text-blue-600 transition"
+                            wire:navigate>Contacto</a>
+                    </li>
 
                     @auth
                         {{-- Si el usuario está logueado --}}
@@ -68,9 +76,9 @@
                                     <a href="{{ route('profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                                         wire:navigate>Mi perfil</a>
                                 </li>
-                                        <li>
-                                    <a href="{{ route('properties.index',['favorites' => true]) }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                                        wire:navigate>Favoritos</a>
+                                <li>
+                                    <a href="{{ route('properties.index', ['favorites' => true]) }}"
+                                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100" wire:navigate>Favoritos</a>
                                 </li>
 
                                 <li>
@@ -101,11 +109,42 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-300 py-4 mt-10">
-        <div class="container mx-auto px-4 text-center text-sm">
-            &copy; {{ date('Y') }} PropFlex - Proyecto Inmobiliario
+<footer class="bg-gray-900 text-gray-400 mt-16 pt-12 pb-6">
+    <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8 text-sm">
+
+        <!-- Columna 1: Marca -->
+        <div>
+            <h2 class="text-white text-xl font-semibold mb-2">PropFlex</h2>
+            <p class="text-gray-400">
+                Proyecto inmobiliario con base en Buenos Aires. Acompañamos personas en la compra, venta y alquiler de propiedades.
+            </p>
         </div>
-    </footer>
+
+        <!-- Columna 2: Navegación -->
+        <div>
+            <h3 class="text-white text-sm font-bold mb-2">Navegación</h3>
+            <ul class="space-y-1">
+                <li><a href="{{ route('home') }}" class="hover:text-white">Inicio</a></li>
+                <li><a href="{{ route('properties.index') }}" class="hover:text-white">Propiedades</a></li>
+                <li><a href="{{ route('about') }}" class="hover:text-white">Quiénes somos</a></li>
+                <li><a href="{{ route('contact') }}" class="hover:text-white">Contacto</a></li>
+            </ul>
+        </div>
+
+        <!-- Columna 3: Legal / contacto -->
+        <div>
+            <h3 class="text-white text-sm font-bold mb-2">Contacto</h3>
+            <p>Email: <a href="mailto:info@propflex.com" class="hover:text-white">info@propflex.com</a></p>
+            <p>Tel: <a href="tel:+541100000000" class="hover:text-white">+54 11 0000 0000</a></p>
+            <p class="mt-2">Buenos Aires, Argentina</p>
+        </div>
+    </div>
+
+    <div class="border-t border-gray-700 mt-10 pt-4 text-center text-xs text-gray-500">
+        &copy; {{ date('Y') }} PropFlex — Todos los derechos reservados.
+    </div>
+</footer>
+
 
     @stack('scripts')
 </body>
