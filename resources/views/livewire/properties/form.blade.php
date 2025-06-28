@@ -22,6 +22,12 @@
                     <flux:input wire:model.defer="property_title" label="Título" required />
                 </div>
                 <div>
+                    <flux:input wire:model.defer="property_code" label="Código" required />
+                </div>
+                <div>
+                    <flux:input wire:model.defer="property_slug" label="Ruta" />
+                </div>
+                <div>
                     <flux:select wire:model.defer="property_type_id" label="Tipo de propiedad" required>
                         <flux:select.option value="">{{ __('Elegir tipo...') }}</flux:select.option>
                         @foreach ($propertyTypes as $type)
@@ -45,13 +51,15 @@
                         @endforeach
                     </flux:select>
                 </div>
-                <div>
-                    <flux:input wire:model.defer="property_currency" label="Moneda" placeholder="Ej: USD, ARS"
-                        maxlength="3" required />
-                </div>
-                <div>
-                    <flux:input wire:model.defer="property_price" label="Precio" type="number" min="0"
-                        step="any" required />
+                <div class="flex gap-4">
+                    <div class="basis-1/4">
+                        <flux:input wire:model.defer="property_currency" label="Moneda" placeholder="Ej: USD"
+                            maxlength="3" required />
+                    </div>
+                    <div class="basis-3/4">
+                        <flux:input wire:model.defer="property_price" label="Precio" type="number" min="0"
+                            step="any" required />
+                    </div>
                 </div>
                 <div class="md:col-span-2">
                     <flux:textarea wire:model.defer="property_description" label="Descripción" rows="3" />

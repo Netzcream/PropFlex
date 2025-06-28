@@ -14,6 +14,8 @@ use App\Models\Province;
 use App\Models\City;
 use App\Models\Neighborhood;
 use App\Models\PropertyFeature;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 #[Layout('components.layouts.app')]
 class Form extends Component
@@ -22,6 +24,8 @@ class Form extends Component
 
     // Campos del formulario (todos los del modelo)
     public $property_title;
+    public $property_code;
+    public $property_slug;
     public $property_description;
     public $property_price;
     public $property_currency = 'USD';
@@ -86,6 +90,8 @@ class Form extends Component
 
             $this->property_features = $property->features()->pluck('property_features.id')->toArray();
             $this->property_id = $property->id;
+            $this->property_code = $property->code;
+            $this->property_slug = $property->slug;
             $this->property_title = $property->title;
             $this->property_description = $property->description;
             $this->property_price = $property->price;
@@ -156,53 +162,75 @@ class Form extends Component
 
     public function save()
     {
+
+        if (empty($this->property_slug) && filled($this->property_title)) {
+            $this->property_slug = Str::slug($this->property_title);
+        }
         $this->validate([
-    'property_title' => 'required|string|max:255',
-    'property_description' => 'nullable|string',
-    'property_price' => 'required|numeric',
-    'property_currency' => 'required|string|max:5',
-    'property_type_id' => 'required|exists:property_types,id',
-    'property_operation_type_id' => 'required|exists:property_operation_types,id',
-    'property_status_id' => 'required|exists:property_statuses,id',
-    'property_province_id' => 'required|exists:provinces,id',
-    'property_city_id' => 'required|exists:cities,id',
-    'property_neighborhood_id' => 'required|exists:neighborhoods,id',
-    'property_rooms' => 'nullable|integer|min:0',
-    'property_bathrooms' => 'nullable|integer|min:0',
-    'property_surface' => 'nullable|numeric|min:0',
-    'property_address' => 'nullable|string|max:255',
-    'property_latitude' => 'nullable|string',
-    'property_longitude' => 'nullable|string',
-    'property_is_featured' => 'boolean',
-    'property_is_published' => 'boolean',
-    'property_published_at' => 'nullable|date',
-    'property_expires_at' => 'nullable|date',
-    'photo_files.*' => 'nullable|image|max:4096',
-    'plan_files.*' => 'nullable|file|max:4096',
-], [], [
-    'property_title' => 'título de la propiedad',
-    'property_description' => 'descripción de la propiedad',
-    'property_price' => 'precio',
-    'property_currency' => 'moneda',
-    'property_type_id' => 'tipo de propiedad',
-    'property_operation_type_id' => 'tipo de operación',
-    'property_status_id' => 'estado de la propiedad',
-    'property_province_id' => 'provincia',
-    'property_city_id' => 'ciudad',
-    'property_neighborhood_id' => 'barrio',
-    'property_rooms' => 'ambientes',
-    'property_bathrooms' => 'baños',
-    'property_surface' => 'superficie',
-    'property_address' => 'dirección',
-    'property_latitude' => 'latitud',
-    'property_longitude' => 'longitud',
-    'property_is_featured' => 'destacada',
-    'property_is_published' => 'publicada',
-    'property_published_at' => 'fecha de publicación',
-    'property_expires_at' => 'fecha de expiración',
-    'photo_files.*' => 'imagen de la propiedad',
-    'plan_files.*' => 'archivo del plano',
-]);
+            'property_title' => 'required|string|max:255',
+            'property_code' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('properties', 'code')
+                    ->ignore($this->property_id)
+                    ->whereNull('deleted_at'),
+            ],
+            'property_slug' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('properties', 'slug')
+                    ->ignore($this->property_id)
+                    ->whereNull('deleted_at'),
+            ],
+            'property_description' => 'nullable|string',
+            'property_price' => 'required|numeric',
+            'property_currency' => 'required|string|max:5',
+            'property_type_id' => 'required|exists:property_types,id',
+            'property_operation_type_id' => 'required|exists:property_operation_types,id',
+            'property_status_id' => 'required|exists:property_statuses,id',
+            'property_province_id' => 'required|exists:provinces,id',
+            'property_city_id' => 'required|exists:cities,id',
+            'property_neighborhood_id' => 'required|exists:neighborhoods,id',
+            'property_rooms' => 'nullable|integer|min:0',
+            'property_bathrooms' => 'nullable|integer|min:0',
+            'property_surface' => 'nullable|numeric|min:0',
+            'property_address' => 'nullable|string|max:255',
+            'property_latitude' => 'nullable|string',
+            'property_longitude' => 'nullable|string',
+            'property_is_featured' => 'boolean',
+            'property_is_published' => 'boolean',
+            'property_published_at' => 'nullable|date',
+            'property_expires_at' => 'nullable|date',
+            'photo_files.*' => 'nullable|image|max:4096',
+            'plan_files.*' => 'nullable|file|max:4096',
+        ], [], [
+            'property_title' => 'título de la propiedad',
+            'property_description' => 'descripción de la propiedad',
+            'property_price' => 'precio',
+            'property_code' => 'código de la propiedad',
+            'property_slug' => 'slug de la propiedad',
+            'property_currency' => 'moneda',
+            'property_type_id' => 'tipo de propiedad',
+            'property_operation_type_id' => 'tipo de operación',
+            'property_status_id' => 'estado de la propiedad',
+            'property_province_id' => 'provincia',
+            'property_city_id' => 'ciudad',
+            'property_neighborhood_id' => 'barrio',
+            'property_rooms' => 'ambientes',
+            'property_bathrooms' => 'baños',
+            'property_surface' => 'superficie',
+            'property_address' => 'dirección',
+            'property_latitude' => 'latitud',
+            'property_longitude' => 'longitud',
+            'property_is_featured' => 'destacada',
+            'property_is_published' => 'publicada',
+            'property_published_at' => 'fecha de publicación',
+            'property_expires_at' => 'fecha de expiración',
+            'photo_files.*' => 'imagen de la propiedad',
+            'plan_files.*' => 'archivo del plano',
+        ]);
 
 
 
@@ -221,7 +249,9 @@ class Form extends Component
         }
 
         $property->title = $this->property_title;
+        $property->code = $this->property_code;
         $property->description = $this->property_description;
+        $property->slug = $this->property_slug;
         $property->price = $this->property_price;
         $property->currency = $this->property_currency;
         $property->property_type_id = $this->property_type_id;
