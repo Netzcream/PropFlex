@@ -241,7 +241,9 @@
 
 
                                 <td class="px-6 py-4 text-end text-sm font-medium">
-                                    @if (auth()->user()->isAdmin() || $row->user_id === auth()->user()->id)
+                                    {{$row->user_id }} vs
+                                    {{auth()->user()->id}}
+                                    @if (auth()->user()->isAdmin() || $row->user_id == auth()->user()->id)
                                         <span
                                             class="text-xs text-gray-400 dark:text-neutral-500 inline-flex items-center whitespace-nowrap">
 

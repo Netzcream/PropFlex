@@ -241,9 +241,10 @@ class Form extends Component
         $property->published_at = $this->property_published_at;
         $property->expires_at = $this->property_expires_at;
 
-        $property->features()->sync($this->property_features ?? []);
+
 
         $property->save();
+        $property->features()->sync($this->property_features ?? []);
 
 
 
