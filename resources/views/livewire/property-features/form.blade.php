@@ -153,7 +153,7 @@
             <flux:button type="submit" variant="primary">
                 {{ $editMode ? __('Actualizar') : __('Crear') }}
             </flux:button>
-            <a href="{{ route('dashboard.property-types.index') }}" class="flux:button">
+            <a href="{{ route('dashboard.property-features.index') }}" class="flux:button">
                 {{ __('Cancelar') }}
             </a>
         </div>

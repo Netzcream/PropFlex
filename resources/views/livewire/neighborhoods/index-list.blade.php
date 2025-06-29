@@ -1,12 +1,25 @@
-<x-data-table :pagination="$propertyFeatures">
+<x-data-table :pagination="$neighborhoods">
 
+    <x-slot name="filters">
+        <div class="max-w-[210px] flex-1">
+            <flux:input wire:keyup.debounce.500ms="filter()" wire:model.debounce.500ms="search"
+                label="{{ __('Buscar') }}" />
+        </div>
+
+        <div class="w-[250px]">
+            <flux:select wire:model="city" wire:change="filter" label="{{ __('Ciudad') }}">
+                <flux:select.option value="">{{ __('Todas las ciudades') }}</flux:select.option>
+                @foreach ($cities as $p)
+                    <flux:select.option value="{{ $p->id }}">{{ $p->name }}</flux:select.option>
+                @endforeach
+            </flux:select>
+        </div>
+    </x-slot>
 
     <x-slot name="head">
-        <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
-            {{ __('Icono') }}
-        </th>
+
         <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500 cursor-pointer"
-            wire:click="sort('title')">
+            wire:click="sort('neighborhood_name')">
             <span class="inline-flex items-center gap-1 whitespace-nowrap cursor-pointer">
                 {{ __('Nombre') }}
                 @if ($sortBy === 'name')
@@ -15,10 +28,20 @@
             </span>
         </th>
         <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500 cursor-pointer"
-            wire:click="sort('property_feature_id')">
+            wire:click="sort('neighborhood_code')">
             <span class="inline-flex items-center gap-1 whitespace-nowrap cursor-pointer">
                 {{ __('Código') }}
                 @if ($sortBy === 'code')
+                    {!! $sortDirection === 'asc' ? '↑' : '↓' !!}
+                @endif
+            </span>
+        </th>
+
+        <th class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500 cursor-pointer"
+            wire:click="sort('city_id')">
+            <span class="inline-flex items-center gap-1 whitespace-nowrap cursor-pointer">
+                {{ __('Ciudad') }}
+                @if ($sortBy === 'city')
                     {!! $sortDirection === 'asc' ? '↑' : '↓' !!}
                 @endif
             </span>
@@ -32,16 +55,9 @@
 
     </x-slot>
 
-    @forelse ($propertyFeatures as $row)
+    @forelse ($neighborhoods as $row)
         <tr>
-            <td class="px-6 py-4">
-                @if ($row->icon)
-                    <i class="fa-solid {{ $row->icon }}"></i>
-                @else
-                    -
-                @endif
 
-            </td>
             <td class="px-6 py-4 text-sm font-medium text-gray-800 dark:text-neutral-200">
                 {{ $row->name }}
 
@@ -49,17 +65,20 @@
             <td class="px-6 py-4 text-sm text-gray-800 dark:text-neutral-200">
                 {{ $row->code ?? '-' }}
             </td>
+            <td class="px-6 py-4 text-sm text-gray-800 dark:text-neutral-200">
+                {{ $row->city ?? '-' }}
+            </td>
 
             <td class="px-6 py-4 text-end text-sm font-medium">
                 @can('gestionar recursos')
                     <span class="text-xs text-gray-400 dark:text-neutral-500 inline-flex items-center whitespace-nowrap">
 
 
-                        <a wire:navigate href="{{ route('dashboard.property-features.edit', $row->uuid) }}"
+                        <a wire:navigate href="{{ route('dashboard.neighborhoods.edit', $row->uuid) }}"
                             class="inline-flex items-center gap-x-2 text-sm  rounded-lg border border-transparent text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400">
                             {{ __('Editar') }}
                         </a>
-                        <flux:modal.trigger name="confirm-delete-property-feature">
+                        <flux:modal.trigger name="confirm-delete-neighborhood">
                             <button wire:click="confirmDelete('{{ $row->uuid }}')"
                                 class="cursor-pointer ml-2 inline-flex items-center gap-x-2 text-sm  rounded-lg text-red-600 hover:text-red-800 dark:text-red-500 dark:hover:text-red-400">
                                 {{ __('Eliminar') }}
@@ -75,20 +94,20 @@
     @empty
         <tr>
             <td colspan="4" class="px-6 py-4 text-sm text-center text-gray-500 dark:text-neutral-400">
-                {{ __('No hay propiedades cargadas.') }}
+                {{ __('No hay barrios cargados.') }}
             </td>
         </tr>
     @endforelse
 
     <x-slot name="modal">
-        <flux:modal name="confirm-delete-property-feature" x-data
-            @property-feature-deleted.window="$dispatch('modal-close', { name: 'confirm-delete-property-feature' })"
+        <flux:modal name="confirm-delete-neighborhood" x-data
+            @neighborhood-deleted.window="$dispatch('modal-close', { name: 'confirm-delete-neighborhood' })"
             class="min-w-[22rem]">
             <div class="space-y-6">
                 <div>
-                    <flux:heading size="lg">{{ __('¿Eliminar característica?') }}</flux:heading>
+                    <flux:heading size="lg">{{ __('¿Eliminar barrio?') }}</flux:heading>
                     <flux:text class="mt-2">
-                        {{ __('Esta acción eliminará característica. ¿Estás seguro?') }}
+                        {{ __('Esta acción eliminará el barrio. ¿Estás seguro?') }}
                     </flux:text>
                 </div>
                 <div class="flex gap-2">
@@ -105,5 +124,3 @@
     </x-slot>
 
 </x-data-table>
-
-

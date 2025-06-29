@@ -6,7 +6,8 @@
                 <div class="flex items-center justify-between gap-4 flex-wrap">
                     <div>
                         <flux:heading size="xl" level="1">{{ __('Contactos recibidos') }}</flux:heading>
-                        <flux:subheading size="lg" class="mb-6">{{ __('Consultas y mensajes enviados desde la web.') }}
+                        <flux:subheading size="lg" class="mb-6">
+                            {{ __('Consultas y mensajes enviados desde la web.') }}
                         </flux:subheading>
 
                     </div>
@@ -26,6 +27,3 @@
             </div>
         </div>
     </div>
-
-
-

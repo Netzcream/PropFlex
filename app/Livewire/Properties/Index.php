@@ -25,7 +25,7 @@ class Index extends Component
     public $operation = '';
     public $city = '';
     public $is_featured = '';
-    public $perPage = 5;
+    public $perPage = 10;
 
 
     public $propertyTypes = [];

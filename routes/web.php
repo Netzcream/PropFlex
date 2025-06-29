@@ -18,9 +18,18 @@ use App\Livewire\Users\Form as UsersForm;
 use App\Livewire\PropertyFeatures\Index as PropertyFeaturesIndex;
 use App\Livewire\PropertyFeatures\Form as PropertyFeaturesForm;
 
+use App\Livewire\Provinces\Index as ProvincesIndex;
+use App\Livewire\Provinces\Form as ProvincesForm;
+
+use App\Livewire\Cities\Index as CitiesIndex;
+use App\Livewire\Cities\Form as CitiesForm;
+
+use App\Livewire\Neighborhoods\Index as NeighborhoodsIndex;
+use App\Livewire\Neighborhoods\Form as NeighborhoodsForm;
+
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-
+use App\Livewire\Admin\Locations\{ProvinceForm, CityForm, NeighborhoodForm};
 
 
 Route::GET('/', [HomeController::class, 'index'])
@@ -72,13 +81,24 @@ Route::middleware(['auth', 'verified', 'role:agente|admin|editor'])->group(funct
             Route::get('/{user}/edit', UsersForm::class)->name('edit');
         })->middleware('role:admin');
 
-        // Provincias, ciudades, barrios (Ubicaciones)
-        Route::prefix('locations')->name('locations.')->group(function () {
-            Route::get('/', fn() => 'Listado de Ubicaciones')->name('index');
-            Route::get('/provinces', fn() => 'Listado de Provincias')->name('provinces');
-            Route::get('/cities', fn() => 'Listado de Ciudades')->name('cities');
-            Route::get('/neighborhoods', fn() => 'Listado de Barrios')->name('neighborhoods');
-        })->middleware('role:admin|agente|editor');
+
+        Route::prefix('provinces')->name('provinces.')->group(function () {
+            Route::get('/', ProvincesIndex::class)->name('index');
+            Route::get('/create', ProvincesForm::class)->name('create');
+            Route::get('/{province}/edit', ProvincesForm::class)->name('edit');
+        })->middleware('role:agente|admin|editor');
+
+        Route::prefix('cities')->name('cities.')->group(function () {
+            Route::get('/', CitiesIndex::class)->name('index');
+            Route::get('/create', CitiesForm::class)->name('create');
+            Route::get('/{city}/edit', CitiesForm::class)->name('edit');
+        })->middleware('role:agente|admin|editor');
+
+        Route::prefix('neighborhoods')->name('neighborhoods.')->group(function () {
+            Route::get('/', NeighborhoodsIndex::class)->name('index');
+            Route::get('/create', NeighborhoodsForm::class)->name('create');
+            Route::get('/{neighborhood}/edit', NeighborhoodsForm::class)->name('edit');
+        })->middleware('role:agente|admin|editor');
 
         // Estadísticas
         Route::get('/reports', fn() => 'Estadísticas')->name('reports.index');
@@ -120,6 +140,6 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-})->middleware('role:agente|admin');
+})->middleware('role:agente|admin|editor');
 
 require __DIR__ . '/auth.php';

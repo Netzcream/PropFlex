@@ -26,12 +26,11 @@ class Index extends Component
     public $role = '';
     public string $userToDelete = '';
 
-    public $perPage = 5;
+    public $perPage = 10;
     public $roles = [];
 
     public function mount()
     {
-        // Trae todos los roles del sistema
         $this->roles = Role::orderBy('name')->pluck('name')->toArray();
     }
 

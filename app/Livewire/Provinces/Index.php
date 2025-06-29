@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Livewire\PropertyTypes;
+namespace App\Livewire\Provinces;
 
+use App\Models\Province;
 use Livewire\Component;
 
-use App\Models\PropertyType;
+
 use Livewire\Attributes\On;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
@@ -16,14 +17,13 @@ class Index extends Component
 {
     use WithPagination;
 
-/*
-'name', 'code', 'icon', 'uuid'
-*/
+    public string $title = 'Provincias';
 
     public string $sortBy = 'name';
     public string $sortDirection = 'asc';
     public string $search = '';
-    public string $propertyTypeToDelete = '';
+    public string $provinceToDelete = '';
+
 
     public $perPage = 10;
 
@@ -31,6 +31,7 @@ class Index extends Component
 
     public function mount()
     {
+
     }
 
     public function sort(string $column): void
@@ -54,41 +55,31 @@ class Index extends Component
 
     public function confirmDelete(string $uuid): void
     {
-        $this->propertyTypeToDelete = $uuid;
+        $this->provinceToDelete = $uuid;
     }
 
 
 
     public function delete(): void
     {
-        $propertyType = PropertyType::where('uuid', $this->propertyTypeToDelete)->first();
+        $province = Province::where('uuid', $this->provinceToDelete)->first();
 
-        if (!$propertyType) {
+        if (!$province) {
             return;
         }
-
-        $propertyType->delete();
-
-        $this->dispatch('property-type-deleted');
-        $this->reset('propertyTypeToDelete');
+        $province->delete();
+        $this->dispatch('province-deleted');
+        $this->reset('provinceToDelete');
     }
-
-
 
     public function render()
     {
-        $query = PropertyType::query()
-            ->when(
-                $this->search,
-                fn($q) =>
+        $query = Province::query()
+            ->when($this->search, function ($q) {
                 $q->where('name', 'like', "%{$this->search}%")
-                    ->orWhere('code', 'like', "%{$this->search}%")
-            )
-            ;
-
-        $propertyTypes = $query->orderBy($this->sortBy, $this->sortDirection)->paginate($this->perPage);
-
-
-        return view('livewire.property-types.index', compact('propertyTypes'));
+                    ->orWhere('code', 'like', "%{$this->search}%");
+            });
+        $provinces = $query->orderBy($this->sortBy, $this->sortDirection)->paginate($this->perPage);
+        return view('livewire.provinces.index', compact('provinces'));
     }
 }

@@ -25,7 +25,7 @@ class Index extends Component
     public string $search = '';
     public string $propertyFeatureToDelete = '';
 
-    public $perPage = 5;
+    public $perPage = 10;
 
 
 

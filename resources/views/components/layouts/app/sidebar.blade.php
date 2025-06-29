@@ -15,8 +15,8 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Plataforma')" class="grid">
-                <flux:navlist.item icon="home" :href="route('dashboard')"
-                    :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}
+                <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
+                    wire:navigate>{{ __('Dashboard') }}
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
@@ -60,10 +60,23 @@
 
                         </flux:navlist.item>
                     @endcan
+
                     @can('gestionar recursos')
-                        <flux:navlist.item icon="map" :href="route('dashboard.locations.index')"
-                            :current="request()->routeIs('locations.*')" wire:navigate>
-                            {{ __('Ubicaciones') }}
+                        <flux:navlist.item icon="map" :href="route('dashboard.provinces.index')"
+                            :current="request()->routeIs('dashboard.provinces.*')" wire:navigate>
+                            {{ __('Provincias') }}
+                        </flux:navlist.item>
+                    @endcan
+                    @can('gestionar recursos')
+                        <flux:navlist.item icon="map" :href="route('dashboard.cities.index')"
+                            :current="request()->routeIs('dashboard.cities.*')" wire:navigate>
+                            {{ __('Ciudades') }}
+                        </flux:navlist.item>
+                    @endcan
+                    @can('gestionar recursos')
+                        <flux:navlist.item icon="map" :href="route('dashboard.neighborhoods.index')"
+                            :current="request()->routeIs('dashboard.neighborhoods.*')" wire:navigate>
+                            {{ __('Barrios') }}
                         </flux:navlist.item>
                     @endcan
                 </flux:navlist.group>

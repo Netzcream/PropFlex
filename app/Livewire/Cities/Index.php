@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Livewire\PropertyTypes;
+namespace App\Livewire\Cities;
 
+use App\Models\City;
+use App\Models\Province;
 use Livewire\Component;
 
-use App\Models\PropertyType;
+
 use Livewire\Attributes\On;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
@@ -16,14 +18,13 @@ class Index extends Component
 {
     use WithPagination;
 
-/*
-'name', 'code', 'icon', 'uuid'
-*/
-
     public string $sortBy = 'name';
     public string $sortDirection = 'asc';
     public string $search = '';
-    public string $propertyTypeToDelete = '';
+    public string $cityToDelete = '';
+
+    public $province = '';
+    public $provinces = [];
 
     public $perPage = 10;
 
@@ -31,6 +32,7 @@ class Index extends Component
 
     public function mount()
     {
+        $this->provinces = Province::orderBy('name')->get();
     }
 
     public function sort(string $column): void
@@ -54,41 +56,33 @@ class Index extends Component
 
     public function confirmDelete(string $uuid): void
     {
-        $this->propertyTypeToDelete = $uuid;
+        $this->cityToDelete = $uuid;
     }
 
 
 
     public function delete(): void
     {
-        $propertyType = PropertyType::where('uuid', $this->propertyTypeToDelete)->first();
+        $city = City::where('uuid', $this->cityToDelete)->first();
 
-        if (!$propertyType) {
+        if (!$city) {
             return;
         }
-
-        $propertyType->delete();
-
-        $this->dispatch('property-type-deleted');
-        $this->reset('propertyTypeToDelete');
+        $city->delete();
+        $this->dispatch('city-deleted');
+        $this->reset('cityToDelete');
     }
-
-
 
     public function render()
     {
-        $query = PropertyType::query()
-            ->when(
-                $this->search,
-                fn($q) =>
+        $query = City::query()
+            ->with(['province'])
+            ->when($this->search, function ($q) {
                 $q->where('name', 'like', "%{$this->search}%")
-                    ->orWhere('code', 'like', "%{$this->search}%")
-            )
-            ;
-
-        $propertyTypes = $query->orderBy($this->sortBy, $this->sortDirection)->paginate($this->perPage);
-
-
-        return view('livewire.property-types.index', compact('propertyTypes'));
+                    ->orWhere('code', 'like', "%{$this->search}%");
+            })
+            ->when($this->province, fn($q) => $q->where('province_id', $this->province));
+        $cities = $query->orderBy($this->sortBy, $this->sortDirection)->paginate($this->perPage);
+        return view('livewire.cities.index', compact('cities'));
     }
 }
