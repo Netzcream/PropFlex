@@ -1,139 +1,93 @@
-# 📋 ToDo Correlativo PropFlex (Laravel 12)
+## Guía de Uso del Sitio
 
-## 1. Configuración inicial del proyecto
-- [ ] Crear proyecto Laravel 12: `laravel new propflex`
-- [ ] Configurar base de datos en `.env`
-- [ ] Setear `APP_LOCALE=es` y `APP_TIMEZONE=America/Argentina/Buenos_Aires`
-- [ ] Instalar Breeze: `composer require laravel/breeze --dev`
-- [ ] Instalar Breeze: `php artisan breeze:install`
-- [ ] Instalar npm y compilar assets: `npm install && npm run dev`
-- [ ] Ejecutar migraciones iniciales: `php artisan migrate`
+### Acceso y roles
 
-## 2. Instalación de componentes adicionales
-- [ ] Instalar Livewire: `composer require livewire/livewire`  
-  [Livewire Docs](https://livewire.laravel.com/)
-- [ ] Instalar Spatie Permissions: `composer require spatie/laravel-permission`  
-  [Spatie Permissions Docs](https://spatie.be/docs/laravel-permission)
-- [ ] Instalar Spatie Media Library: `composer require spatie/laravel-medialibrary`  
-  [Spatie Media Library Docs](https://spatie.be/docs/laravel-medialibrary)
-- [ ] Instalar Laravel Excel: `composer require maatwebsite/excel`  
-  [Laravel Excel Docs](https://laravel-excel.com/)
-- [ ] Instalar Laravel DomPDF: `composer require barryvdh/laravel-dompdf`  
-  [Laravel DomPDF Docs](https://github.com/barryvdh/laravel-dompdf)
+El sitio PropFlex gestiona el acceso y las funcionalidades según el rol del usuario. Hay tres tipos de usuarios principales:
 
-## 3. Roles y permisos
-- [ ] Publicar archivos de Spatie Permissions:  
-  `php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"`
-- [ ] Ejecutar migraciones: `php artisan migrate`
-- [ ] Modificar `User.php` para usar `HasRoles`
-- [ ] Crear seeders para roles: Admin, Agente
-
-## 4. Usuarios iniciales
-- [ ] Crear seeders de usuario Admin y Agente
-- [ ] Asignar roles en los seeders
-- [ ] Probar login
-
-## 5. Modelo Property
-- [ ] Crear modelo, migración y factory de Property
-- [ ] Definir constantes de estado (disponible, reservada, vendida/alquilada)
-- [ ] Relacionar User -> Property (hasMany) y Property -> User (belongsTo)
-- [ ] Implementar MediaLibrary en Property
-
-## 6. Panel CRUD de propiedades
-- [ ] Crear rutas protegidas
-- [ ] Crear componentes Livewire:
-  - [ ] `PropertyForm`
-  - [ ] `PropertyList`
-- [ ] Agente:
-  - Crear propiedades propias
-  - Editar propiedades propias
-  - Cambiar estado
-- [ ] Admin:
-  - Gestionar todas las propiedades
-  - Eliminar propiedades
-
-## 7. Landing pública y catálogo
-- [ ] Crear landing pública
-- [ ] Filtros de búsqueda: precio, tipo, operación, ubicación
-- [ ] Propiedades destacadas y vistas recientemente
-- [ ] Detalle de propiedad
-- [ ] Formulario de contacto
-
-## 8. Gestión de usuarios (admin)
-- [ ] Listado de usuarios
-- [ ] Crear, editar y eliminar agentes
-- [ ] Asignación de roles
-
-## 9. Gestión de contenidos institucionales
-- [ ] Modelo/migración de Content
-- [ ] CRUD de contenidos (quienes somos, contacto, banners)
-
-## 10. Subida de archivos multimedia
-- [ ] Subida de imágenes, videos, planos con MediaLibrary
-- [ ] Validación de formatos y tamaño
-
-## 11. Exportaciones
-- [ ] Crear exportador de propiedades a Excel  
-  `php artisan make:export PropertiesExport --model=Property`
-- [ ] Crear exportación de propiedades a PDF usando DomPDF
-
-## 12. Mejoras opcionales
-- [ ] Contador de vistas
-- [ ] Estadísticas por propiedad y usuario
-- [ ] Validaciones fuertes
-- [ ] Mejoras estéticas con Tailwind
-
-## 13. Preparar entrega
-- [ ] Comprimir proyecto en `TP1_PropFlex`
-- [ ] Incluir carpeta Laravel + documentos de entrega
+- **Visitante**
+- **Agente**
+- **Administrador**
 
 ---
 
-# 🛠️ Laravel Cheat Sheet Comandos Útiles
+### 1. Visitante
 
-## Crear estructura
-```bash
-php artisan make:model Property -m
-php artisan make:controller PropertyController
-php artisan make:seeder UserSeeder
-php artisan make:factory PropertyFactory --model=Property
-php artisan make:migration create_properties_table
-php artisan make:policy PropertyPolicy --model=Property
-php artisan make:request StorePropertyRequest
-php artisan make:livewire PropertyForm
-php artisan make:livewire PropertyList
-php artisan make:export PropertiesExport --model=Property
-```
+**¿Qué puede hacer?**
 
-## Migraciones y Seeders
-```bash
-php artisan migrate
-php artisan migrate:rollback
-php artisan migrate:fresh --seed
-php artisan db:seed --class=UserSeeder
-```
+- Navegar y explorar el catálogo completo de propiedades sin necesidad de registrarse.
+- Usar filtros para buscar propiedades por precio, ubicación, tipo y operación (venta/alquiler).
+- Ver el detalle de cada propiedad, incluyendo fotos, videos y recorridos 360° (si están disponibles).
+- Enviar consultas a los agentes mediante el formulario de contacto presente en cada propiedad.
 
-## Rutas y controladores
-```bash
-php artisan route:list
-php artisan make:controller PropertyController --resource
-```
+**¿Qué NO puede hacer?**
 
-## Storage y archivos
-```bash
-php artisan storage:link
-```
+- Cargar, modificar o eliminar propiedades.
+- Acceder al panel de administración.
+- Ver estadísticas internas o datos de otros usuarios.
 
-## General
-```bash
-php artisan optimize:clear
-php artisan serve
-```
+---
 
-## Exportaciones
-```php
-use Barryvdh\DomPDF\Facade\Pdf;
+### 2. Agente
 
-$pdf = Pdf::loadView('exports.properties', ['properties' => $properties]);
-return $pdf->download('propiedades.pdf');
-```
+**¿Qué puede hacer?**
+
+- Registrarse o iniciar sesión para acceder a su panel privado.
+- Publicar nuevas propiedades: cargar título, descripción, precio, ubicación, imágenes, videos y recorridos 360°.
+- Modificar propiedades propias y actualizar su estado (disponible, reservada, vendida, etc.).
+- Visualizar y responder consultas de potenciales clientes relacionadas con sus propiedades.
+- Consultar estadísticas básicas de sus publicaciones (por ejemplo, cantidad de vistas o contactos recibidos).
+
+**¿Qué NO puede hacer?**
+
+- Editar o eliminar propiedades publicadas por otros agentes.
+- Gestionar usuarios (crear, modificar o eliminar cuentas).
+- Acceder a estadísticas globales o administración general del sistema.
+
+---
+
+### 3. Administrador
+
+**¿Qué puede hacer?**
+
+- Iniciar sesión para acceder al panel de administración completo.
+- Crear, editar y eliminar cuentas de agentes.
+- Crear, modificar y eliminar cualquier propiedad, sin importar el autor.
+- Editar el contenido general del sitio (landing page, textos institucionales, banners).
+- Gestionar todas las consultas recibidas y redirigirlas a los agentes correspondientes.
+- Acceder a estadísticas completas del sistema (vistas, propiedades más visitadas, consultas, desempeño de agentes).
+- Gestionar categorías, etiquetas o filtros para búsquedas.
+- Modificar o eliminar contenido multimedia (imágenes, videos, recorridos 360°).
+- Configurar parámetros básicos del sistema (por ejemplo, tasa de comisión).
+
+**¿Qué NO puede hacer?**
+
+- El Administrador tiene acceso completo al sistema y no tiene restricciones funcionales.
+
+---
+
+## Resumen de Acciones Permitidas según Rol
+
+| Acción                            | Visitante | Agente | Administrador |
+|------------------------------------|:---------:|:------:|:-------------:|
+| Ver propiedades                    |     ✔️    |   ✔️   |      ✔️       |
+| Usar filtros de búsqueda           |     ✔️    |   ✔️   |      ✔️       |
+| Enviar consultas                   |     ✔️    |   ✔️   |      ✔️       |
+| Crear nuevas propiedades           |     ❌    |   ✔️   |      ✔️       |
+| Editar propiedades propias         |     ❌    |   ✔️   |      ✔️       |
+| Editar propiedades de otros        |     ❌    |   ❌   |      ✔️       |
+| Gestionar usuarios                 |     ❌    |   ❌   |      ✔️       |
+| Ver estadísticas básicas (propias) |     ❌    |   ✔️   |      ✔️       |
+| Ver estadísticas globales          |     ❌    |   ❌   |      ✔️       |
+| Modificar contenido institucional  |     ❌    |   ❌   |      ✔️       |
+| Modificar contenido multimedia     |     ❌    |   ❌   |      ✔️       |
+
+---
+
+### Ejemplo de Flujo de Uso
+
+1. **Visitante** explora propiedades y consulta por una vivienda de interés.
+2. **Agente** recibe la consulta, responde y carga una nueva propiedad.
+3. **Administrador** revisa las publicaciones y gestiona el contenido global del sitio.
+
+---
+
