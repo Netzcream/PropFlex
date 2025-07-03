@@ -179,9 +179,20 @@ El sitio estará disponible por defecto en [http://localhost:8000](http://localh
 
 ---
 
-### Usuarios y acceso
+### Usuarios de prueba
 
-- El acceso inicial puede requerir que crees manualmente usuarios en la base de datos, o usando los registros del sistema.
-- Para acceder como administrador/editor/agente, asigná el rol adecuado desde el panel o desde la base de datos.
+Se crean automáticamente los siguientes usuarios al ejecutar el seeder `RoleAndPermissionSeeder`:
+
+| Rol           | Email                                 | Contraseña    | Nombre                  |
+|---------------|---------------------------------------|---------------|-------------------------|
+| Administrador | admin@propflex.netzcream.com.ar       | flexpropZYXW  | Ricardo Admin           |
+| Agente        | agente@propflex.netzcream.com.ar      | flexpropZYXW  | Roberto Gomez Agente    |
+| Editor        | editor@propflex.netzcream.com.ar      | flexpropZYXW  | Juan Carlos Editor      |
+| Visitante     | user@propflex.netzcream.com.ar        | flexpropZYXW  | Usuario                 |
+
+> **Importante:**
+> - Los roles ya están asignados a cada usuario.
+> - Todos los usuarios tienen la contraseña `flexpropZYXW` y pueden ser usados para probar los diferentes permisos y vistas del sistema.
 
 ---
+
