@@ -45,8 +45,6 @@ Route::middleware(['auth', 'verified', 'role:agente|admin|editor'])->group(funct
 
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
 
-
-
         // Propiedades
         Route::prefix('properties')->name('properties.')->group(function () {
             Route::get('/', PropertiesIndex::class)->name('index');
