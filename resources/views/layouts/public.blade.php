@@ -53,7 +53,7 @@
                             $user = Auth::user();
                         @endphp
 
-                        @if ($user->hasRole('admin') || $user->hasRole('agente'))
+                        @if ($user->hasRole('admin') || $user->hasRole('agente') || $user->hasRole('editor'))
                             <li>
                                 <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-600 transition"
                                     wire:navigate>Panel</a>

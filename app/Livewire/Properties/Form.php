@@ -84,7 +84,10 @@ class Form extends Component
 
             /** @var User $user  */
             $user = Auth::user(); // Una sola vez arriba
-            if ($user->hasRole('agente') && $property->user_id !== $user->id) {
+            if ($user->hasRole('editor')) {
+                abort(403, 'No tenés permiso para editar propiedades.');
+            }
+            else if ($user->hasRole('agente') && $property->user_id !== $user->id) {
                 abort(403, 'No tenés permiso para editar esta propiedad.');
             }
 

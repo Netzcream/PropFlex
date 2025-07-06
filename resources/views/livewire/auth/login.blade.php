@@ -41,7 +41,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         // LÓGICA AGREGADA DE ROLES:
         $user = Auth::user();
-        if ($user->hasRole('admin') || $user->hasRole('agente')) {
+        if ($user->hasRole('admin') || $user->hasRole('agente') || $user->hasRole('editor')) {
             // Redirige directo al dashboard
             $this->redirect(route('dashboard', absolute: false), navigate: true);
             return;
