@@ -51,7 +51,7 @@ class Form extends Component
                 'max:255',
                 Rule::unique('users', 'email')->ignore($this->user_id),
             ],
-            'rule' => ['required', Rule::in(array_values($this->allRoles))],
+            'role' => ['required', Rule::in(array_values($this->allRoles))],
             /*'roles' => 'array',
             'roles.*' => ['string', Rule::in(array_values($this->allRoles))],*/
         ];
